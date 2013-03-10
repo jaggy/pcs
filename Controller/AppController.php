@@ -35,6 +35,13 @@ class AppController extends Controller {
 
   public $components = array('Session', 'Email');
 
+  /**
+   * Sends emails dynamically
+   * @param  string $to      
+   * @param  string $subject 
+   * @param  text $message 
+   * @return void
+   */
   public function sendMail($to, $subject, $message){
     $this->Email->smtpOptions = array(
       'port'=>'465',
