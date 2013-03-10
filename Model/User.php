@@ -4,11 +4,15 @@ App::uses('AppModel', 'Model');
 class User extends AppModel {
 
 
-  public function beforeSave($options = array()){
-    parent::beforeSave($options);
-
-    if(!isset($this->data['User']['role_id'])){
+  /**
+   * Add the default membership status if it is not existing
+   * @return void
+   * 
+   */
+  private function membership(){
+    if(!isset($this->data['User']['role_id'])) {
       $this->Role->Behaviors->attach('Containable');
+
       $role = $this->Role->find('first', array(
         'fields' => array('id'),
         'conditions' => array(
@@ -17,8 +21,16 @@ class User extends AppModel {
         'contain' => false
       ));
 
+      // set the the role as the regular member
       $this->data['User']['role_id'] = $role['Role']['id'];
-    }  
+    }
+  }
+
+
+  public function beforeSave($options = array()){
+    parent::beforeSave($options);
+
+    $this->membership();
 
     return true;
 
