@@ -11,7 +11,9 @@ class UsersController extends AppController{
     if($this->request->is('post')){
       $this->User->create();
 
-      if($this->User->save($this->request->data)){
+
+      $this->request->data['User']['activation_key'] = String::uuid();
+      if($this->User->saveAll($this->request->data)){
         $this->Session->setFlash(__('Successfully saved user'));
         $this->redirect('/');
       }else{
