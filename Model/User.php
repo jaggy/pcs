@@ -34,7 +34,9 @@ class User extends AppModel {
    * 
    */
   public function hashPassword(){
-    $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+    if(!isset($this->data['User']['id'])){
+      $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+    }
   }
 
   public function beforeSave($options = array()){
