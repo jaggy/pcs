@@ -10,7 +10,7 @@ class User extends AppModel {
    * @return void
    * 
    */
-  private function membership(){
+  private function validateMembership(){
     if(!isset($this->data['User']['role_id'])) {
       $this->Role->Behaviors->attach('Containable');
 
@@ -28,15 +28,20 @@ class User extends AppModel {
   }
 
 
-  public function hash_password(){
+  /**
+   * Hashes the password using CakePHP's Auth Component
+   * @return void
+   * 
+   */
+  public function hashPassword(){
     $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
   }
 
   public function beforeSave($options = array()){
     parent::beforeSave($options);
 
-    $this->membership();
-    $this->hash_password();
+    $this->validateMembership();
+    $this->hashPassword();
 
     return true;
 
