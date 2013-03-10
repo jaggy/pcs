@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppModel', 'Model');
+App::uses('AuthComponent', 'Controller/Component');
 class User extends AppModel {
 
 
@@ -27,10 +28,15 @@ class User extends AppModel {
   }
 
 
+  public function hash_password(){
+    $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+  }
+
   public function beforeSave($options = array()){
     parent::beforeSave($options);
 
     $this->membership();
+    $this->hash_password();
 
     return true;
 
