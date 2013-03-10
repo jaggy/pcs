@@ -72,6 +72,21 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
+App::import('Vendor', 'Spyc/Spyc');
+if (file_exists(APP . 'Config' . DS . 'settings.yml')) {
+  $settings = Spyc::YAMLLoad(file_get_contents(APP . 'Config' . DS . 'settings.yml'));
+  foreach ($settings as $settingKey => $settingValue) {
+    Configure::write($settingKey, $settingValue);
+  }
+}
+
+if (file_exists(APP . 'Config' . DS . 'settings.private.yml')) {
+  $settings = Spyc::YAMLLoad(file_get_contents(APP . 'Config' . DS . 'settings.private.yml'));
+  foreach ($settings as $settingKey => $settingValue) {
+    Configure::write($settingKey, $settingValue);
+  }
+}
+
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
  *
@@ -107,3 +122,4 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
