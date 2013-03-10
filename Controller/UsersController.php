@@ -29,6 +29,11 @@ class UsersController extends AppController{
     }
   }
 
+  /**
+   * Activates the user account
+   * @param  string $username
+   * @return void
+   */
   public function activate($username){
     $this->User->Behaviors->attach('Containable');
     $activation_key = (isset($this->params['url']['key'])) ? $this->params['url']['key'] : null;
