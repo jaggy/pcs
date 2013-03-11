@@ -9,4 +9,4 @@
 	CakePlugin::routes();
 
   // CakePHP default routes
-	// require CAKE . 'Config' . DS . 'routes.php';
+	require CAKE . 'Config' . DS . 'routes.php';
