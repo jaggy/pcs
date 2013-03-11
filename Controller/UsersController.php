@@ -17,7 +17,7 @@ class UsersController extends AppController{
         $this->sendMail(
           $this->data['User']['email'], 
           'Account Activation', 
-          "Activation key: http://pcs/activate/{$this->data['User']['username']}?key={$this->data['User']['activation_key']}"
+          "Activation key: " . Configure::read('Site.url') . "activate/{$this->data['User']['username']}?key={$this->data['User']['activation_key']}"
         );
         $this->Session->setFlash(__('Successfully saved user'));
         $this->redirect('/');
