@@ -126,6 +126,24 @@ class User extends AppModel {
 
   }
 
+  public $hasAndBelongsToMany = array(
+    'Committee' => array(
+      'className' => 'Committee',
+      'joinTable' => 'committees_users',
+      'foreignKey' => 'user_id',
+      'associationForeignKey' => 'committee_id',
+      'unique' => 'keepExisting'
+    )
+  );
+
+  public $hasOne = array(
+    'Committee' => array(
+      'className' => 'Committee',
+      'foreignKey' => 'user_id',
+      'dependent' => false
+    )
+  );
+
   public $belongsTo = array(
     'Role' => array(
       'className' => 'Role',
