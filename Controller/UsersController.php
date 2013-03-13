@@ -3,8 +3,18 @@
 App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
+
+  /**
+   * Display all the users
+   * 
+   */
   public function index(){
-      
+    $this->User->Behaviors->attach('Containable');
+    $users = $this->User->find('all', array(
+      'contain' => 'Role'
+    ));
+
+    $this->set(compact('users'));
   }
 
   /**
