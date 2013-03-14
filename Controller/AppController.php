@@ -33,7 +33,16 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-  public $components = array('Session', 'Email');
+  public $helpers = array('Html', 'Form', 'Session');
+  public $components = array('Session', 'Email', 'Auth');
+
+  public function beforeFilter(){
+    parent::beforeFilter();
+  
+    $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+    $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+    $this->Auth->loginRedirect = '/';
+  }
 
   /**
    * Sends emails dynamically
