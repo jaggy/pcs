@@ -33,7 +33,21 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-  public $components = array('Session', 'Email');
+  public $helpers = array('Html', 'Form', 'Session');
+  public $components = array(
+    'Session', 'Email', 
+    'Auth' => array(
+      'loginAction' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => '/',
+      'authenticate' => array(
+        'Form' => array(
+          'scope' => array('status' => 1)
+        )
+      )
+
+    )
+  );
 
   /**
    * Sends emails dynamically
