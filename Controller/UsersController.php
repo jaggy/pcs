@@ -4,6 +4,10 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
 
+  public function settings($type = ''){
+      
+  }
+
 
   public function login(){
 
