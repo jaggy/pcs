@@ -16,7 +16,20 @@ class UsersController extends AppController{
       if($this->Auth->login()){
         $this->redirect($this->Auth->redirect());
       }else{
-        $this->Session->setFlash(__('Username or password is incorrect'));
+        $this->User->Behaviors->attach('Containable');
+        $user = $this->User->find('first', array(
+          'conditions' => array(
+            'User.username' => $this->request->data['User']['username']
+          ),
+          'contain' => false
+        ));
+
+        if(isset($user['User']) && !$user['User']['status']){
+          $this->Session->setFlash(__('Your account has not been activated'));
+        }else{
+          $this->Session->setFlash(__('Invalid username or password'));         
+        }
+
       }
 
     }
