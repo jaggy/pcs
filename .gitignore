@@ -5,3 +5,5 @@ Config/settings.private.yml
 tmp/
 Config/database.php
 nbproject/
+
+data/
