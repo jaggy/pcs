@@ -6,6 +6,32 @@ class UsersController extends AppController{
 
   public function settings($type = ''){
       
+      if($this->request->is('post') || $this->request->is('put')){
+
+        $this->request->data['User'] = array_filter($this->request->data['User']);
+        $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
+
+        if(!isset($this->request->data['User']['image']['name'])){
+          unset($this->request->data['User']['image']);
+        }
+        debug($this->request->data);
+        exit;
+
+        if($this->User->save($$this->request->data)){
+          $this->redirect(array('action' => 'index'));
+          $this->Session->setFlash(__('Profile updated'));
+        }else{
+          $this->Session->setFlash(__('Uh-oh. Something went wrong!'));
+        }
+
+      }else{
+        $this->request->data = $this->User->find('first', array(
+          'conditions' => array(
+            "User.{$this->User->primaryKey}" => $this->Session->read('Auth.User.id')
+          )
+        ));
+      }
+
   }
 
 
