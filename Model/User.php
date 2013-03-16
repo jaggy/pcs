@@ -83,8 +83,19 @@ class User extends AppModel {
 
   
   private function saveImage(){
-    debug($this->data);
-    exit;  
+    if(isset($this->data['User']['image'])){
+      $basename = $this->data['User']['image']['name'];
+      $tmp = $this->data['User']['image']['tmp_name'];
+      $extension = pathinfo($basename, PATHINFO_EXTENSION);
+      $filename = String::uuid() . ".{$extension}";
+      $destination = Configure::read('Data.user_images') . $filename;
+      
+      $this->data['User']['image'] = $filename;
+
+      if(!move_uploaded_file($tmp, $destination)){
+        return false;
+      }
+    }
   }
 
 

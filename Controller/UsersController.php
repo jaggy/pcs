@@ -11,13 +11,14 @@ class UsersController extends AppController{
         $this->request->data['User'] = array_filter($this->request->data['User']);
         $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
 
+        if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = '';
+
         if(!isset($this->request->data['User']['image']['name'])){
           unset($this->request->data['User']['image']);
         }
 
         $this->User->id = $this->Session->read('Auth.User.id');
         if($this->User->save($this->request->data)){
-          $this->redirect(array('action' => 'index'));
           $this->Session->setFlash(__('Profile updated'));
         }else{
           $this->Session->setFlash(__('Uh-oh. Something went wrong!'));
