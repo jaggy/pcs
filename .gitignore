@@ -7,3 +7,6 @@ Config/database.php
 nbproject/
 
 data/
+
+#symlinks
+webroot/profile

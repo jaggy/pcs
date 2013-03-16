@@ -31,6 +31,9 @@
     <?php echo $this->Form->input('email'); ?>
   </p>
   <p>
+    <?php echo $this->Html->image("/profile/{$user['image']}"); ?>
+  </p>
+  <p>
     <?php echo $this->Form->input('image', array('type' => 'file')); ?>
   </p>
 </fieldset>

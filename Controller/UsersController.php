@@ -12,6 +12,7 @@ class UsersController extends AppController{
         $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
 
         if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = '';
+        if(!isset($this->request->data['User']['description'])) $this->request->data['User']['description'] = '';
 
         if(!isset($this->request->data['User']['image']['name'])){
           unset($this->request->data['User']['image']);
@@ -19,6 +20,14 @@ class UsersController extends AppController{
 
         $this->User->id = $this->Session->read('Auth.User.id');
         if($this->User->save($this->request->data)){
+
+          $user = $this->User->read();
+          $session = $user['User'];
+
+          unset($user['User']);
+          $session = array_merge($session, $user);
+
+          $this->Auth->login($session);
           $this->Session->setFlash(__('Profile updated'));
         }else{
           $this->Session->setFlash(__('Uh-oh. Something went wrong!'));
@@ -32,6 +41,7 @@ class UsersController extends AppController{
         ));
       }
 
+      $this->set('user', $this->Session->read('Auth.User'));
   }
 
 
