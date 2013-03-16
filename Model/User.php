@@ -58,7 +58,7 @@ class User extends AppModel {
         //'allowEmpty' => false,
         //'required'   => false,
         //'last'       => fa;se, // Stop validation after this rule
-        //'on'         => 'create' // Limit validation to 'create' or 'update' operations
+        'on'         => 'create' // Limit validation to 'create' or 'update' operations
       ),
       'minLength'   => array(
         'rule'    => array('minLength', 6),
@@ -80,6 +80,33 @@ class User extends AppModel {
       ),
     )
   );
+
+  
+  private function saveImage(){
+
+    if(isset($this->data['User']['image'])){
+
+      $user = $this->Find('first', array(
+        'conditions' => array(
+          'User.id' => $this->id
+        )
+      ));
+
+
+      $basename = $this->data['User']['image']['name'];
+      $tmp = $this->data['User']['image']['tmp_name'];
+      $extension = pathinfo($basename, PATHINFO_EXTENSION);
+
+      $filename = (!$user['User']['image']) ? String::uuid() . ".{$extension}" : $user['User']['image'];
+      $destination = Configure::read('Data.user_images') . $filename;
+      
+      $this->data['User']['image'] = $filename;
+
+      if(!move_uploaded_file($tmp, $destination)){
+        return false;
+      }
+    }
+  }
 
 
   /**
@@ -111,7 +138,7 @@ class User extends AppModel {
    * 
    */
   public function hashPassword(){
-    if(!isset($this->data['User']['id'])){
+    if(!isset($this->data['User']['id']) && isset($this->data['User']['password'])){
       $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
     }
   }
@@ -121,6 +148,7 @@ class User extends AppModel {
 
     $this->validateMembership();
     $this->hashPassword();
+    $this->saveImage();
 
     return true;
 

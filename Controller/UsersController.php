@@ -4,6 +4,46 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
 
+  public function settings($type = ''){
+      
+      if($this->request->is('post') || $this->request->is('put')){
+
+        $this->request->data['User'] = array_filter($this->request->data['User']);
+        $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
+
+        if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = '';
+        if(!isset($this->request->data['User']['description'])) $this->request->data['User']['description'] = '';
+
+        if(!isset($this->request->data['User']['image']['name'])){
+          unset($this->request->data['User']['image']);
+        }
+
+        $this->User->id = $this->Session->read('Auth.User.id');
+        if($this->User->save($this->request->data)){
+
+          $user = $this->User->read();
+          $session = $user['User'];
+
+          unset($user['User']);
+          $session = array_merge($session, $user);
+
+          $this->Auth->login($session);
+          $this->Session->setFlash(__('Profile updated'));
+        }else{
+          $this->Session->setFlash(__('Uh-oh. Something went wrong!'));
+        }
+
+      }else{
+        $this->request->data = $this->User->find('first', array(
+          'conditions' => array(
+            "User.{$this->User->primaryKey}" => $this->Session->read('Auth.User.id')
+          )
+        ));
+      }
+
+      $this->set('user', $this->Session->read('Auth.User'));
+  }
+
 
   public function login(){
 
