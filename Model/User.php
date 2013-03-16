@@ -58,7 +58,7 @@ class User extends AppModel {
         //'allowEmpty' => false,
         //'required'   => false,
         //'last'       => fa;se, // Stop validation after this rule
-        //'on'         => 'create' // Limit validation to 'create' or 'update' operations
+        'on'         => 'create' // Limit validation to 'create' or 'update' operations
       ),
       'minLength'   => array(
         'rule'    => array('minLength', 6),
@@ -80,6 +80,12 @@ class User extends AppModel {
       ),
     )
   );
+
+  
+  private function saveImage(){
+    debug($this->data);
+    exit;  
+  }
 
 
   /**
@@ -121,6 +127,7 @@ class User extends AppModel {
 
     $this->validateMembership();
     $this->hashPassword();
+    $this->saveImage();
 
     return true;
 
