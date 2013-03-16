@@ -117,7 +117,7 @@ class User extends AppModel {
    * 
    */
   public function hashPassword(){
-    if(!isset($this->data['User']['id'])){
+    if(!isset($this->data['User']['id']) && isset($this->data['User']['password'])){
       $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
     }
   }

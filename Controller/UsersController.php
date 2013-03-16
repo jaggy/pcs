@@ -14,10 +14,9 @@ class UsersController extends AppController{
         if(!isset($this->request->data['User']['image']['name'])){
           unset($this->request->data['User']['image']);
         }
-        debug($this->request->data);
-        exit;
 
-        if($this->User->save($$this->request->data)){
+        $this->User->id = $this->Session->read('Auth.User.id');
+        if($this->User->save($this->request->data)){
           $this->redirect(array('action' => 'index'));
           $this->Session->setFlash(__('Profile updated'));
         }else{
