@@ -3,6 +3,15 @@
 App::uses('AppController', 'Controller');
 class CommitteesController extends AppController{
 
+
+  /**
+   * Lets the user join a committee
+   *   
+   */
+  public function join(){
+    $this->set('committees', $this->Committee->find('list'));
+  }
+
   /**
    * Display all the committees
    * 

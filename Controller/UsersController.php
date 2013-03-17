@@ -4,7 +4,11 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
 
-  public function settings($type = ''){
+  /**
+   * Update own settings and update the session as well
+   * 
+   */
+  public function settings(){
       
       if($this->request->is('post') || $this->request->is('put')){
 
