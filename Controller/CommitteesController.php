@@ -5,10 +5,10 @@ class CommitteesController extends AppController{
 
 
   /**
-   * Show the user's pending committee request
+   * Display the committee
    * 
    */
-  public function pending($name){
+  public function view($name){
     $this->Committee->Behaviors->attach('Containable');
     $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
@@ -58,7 +58,7 @@ class CommitteesController extends AppController{
         ),
         'contain' => 'Committee'
       ));
-      $this->redirect(array('action' => 'pending', strtolower($committee['Committee']['name'])));
+      $this->redirect(array('action' => 'view', strtolower($committee['Committee']['name'])));
     }
 
     if($this->request->is('post')){
