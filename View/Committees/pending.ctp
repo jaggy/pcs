@@ -2,36 +2,41 @@
 <?php if($pending && !$pending['CommitteeUser']['approved']): ?>
   <em>Your membership is yet to be approved</em>
 <?php endif;?>
+
 <div class="head">
-  <h3>
-    Committee Head
-  </h3>
-  <?php 
-    echo $this->Html->link(
-      $this->Html->image("/profile/{$committee['User']['image']}", array('alt' => $committee['User']['username'])),
-      array(
-        'controller' => 'users',
-        'action' => 'profile', 
-        $committee['User']['username']
-      ),
-      array(
-        'escape' => false
-      )
-    ); 
-  ?>
-  <strong>
-    <?php 
-      echo $this->Html->link(
-        "{$committee['User']['first_name']} {$committee['User']['middle_name']} {$committee['User']['last_name']}",
-        array(
-          'controller' => 'users',
-          'action' => 'profile', 
-          $committee['User']['username']
-        )
-      ); 
-    ?>
-  </strong>
-  <p><?php echo $committee['User']['description'] ?></p>
+  <?php if(array_filter($committee['User'])): ?>
+      <h3>
+        Committee Head
+      </h3>
+      <?php 
+        echo $this->Html->link(
+          $this->Html->image("/profile/{$committee['User']['image']}", array('alt' => $committee['User']['username'])),
+          array(
+            'controller' => 'users',
+            'action' => 'profile', 
+            $committee['User']['username']
+          ),
+          array(
+            'escape' => false
+          )
+        ); 
+      ?>
+      <strong>
+        <?php 
+          echo $this->Html->link(
+            "{$committee['User']['first_name']} {$committee['User']['middle_name']} {$committee['User']['last_name']}",
+            array(
+              'controller' => 'users',
+              'action' => 'profile', 
+              $committee['User']['username']
+            )
+          ); 
+        ?>
+      </strong>
+      <p><?php echo $committee['User']['description'] ?></p>
+  <?php else: ?>
+    <h3><em>There's no committee head yet.</em></h3>
+  <?php endif; ?>
 </div>
 
 <div class="members">
