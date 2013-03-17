@@ -2,7 +2,7 @@
 <ul>
   <?php foreach($committees as $committee): ?>
     <li>
-      <a href="/committees/<?= $committee['Committee']['id']?>">
+      <a href="/committee/<?= str_replace(' ', '_', strtolower($committee['Committee']['name']))?>">
         <strong><?php echo $committee['Committee']['name'] ?></strong>
         <span>
           <time><?php echo date('jS M, Y', strtotime($committee['Committee']['created'])); ?></time>

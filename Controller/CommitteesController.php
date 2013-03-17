@@ -12,6 +12,8 @@ class CommitteesController extends AppController{
     $this->Committee->Behaviors->attach('Containable');
     $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
+    $name = ucwords(str_replace('_', ' ', $name));
+
     $pending = $this->Committee->CommitteeUser->find('first', array(
       'conditions' => array(
         'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
