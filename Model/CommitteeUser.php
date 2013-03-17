@@ -15,6 +15,14 @@ class CommitteeUser extends AppModel {
         //'last'       => false, // Stop validation after this rule
         //'on'         => 'create' // Limit validation to 'create' or 'update' operations
       ),
+      'standardAccount'   => array(
+        'rule'    => array('standardAccount'),
+        'message' => 'You cannot join mutliple committees',
+        //'allowEmpty' => false,
+        //'required'   => false,
+        //'last'       => false, // Stop validation after this rule
+        //'on'         => 'create' // Limit validation to 'create' or 'update' operations
+      ),
     )
   );
 
@@ -27,6 +35,23 @@ class CommitteeUser extends AppModel {
     ));
 
     return (!$isRegistered) ? true : false;
+  }
+
+  public function standardAccount($conditions){
+    $this->User->Behaviors->attach('Containable');
+    $user = $this->User->find('first', array(
+      'fields' => array('id'),
+      'conditions' => array(
+        'User.id' => $this->data['CommitteeUser']['user_id']
+      ),
+      'contain' => array('Role.name', 'CommitteeUser.id')
+    ));
+
+    if(count($user['CommitteeUser']) > 0 && $user['Role']['name'] === 'Member'){
+      return false;
+    }
+
+    return true;
   }
 
   public $belongsTo = array(
