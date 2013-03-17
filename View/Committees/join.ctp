@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('committees', array('inline' => false)); ?>
 <?php echo $this->Form->create('CommitteeUser', array('inputDefaults' => array(
   'div' => false
 ))) ?>
