@@ -4,8 +4,43 @@ App::uses('AppController', 'Controller');
 class CommitteesController extends AppController{
 
 
-  public function pending(){
-      
+  /**
+   * Show the user's pending committee request
+   * 
+   */
+  public function pending($name){
+    $this->Committee->Behaviors->attach('Containable');
+    $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+
+    $pending = $this->Committee->CommitteeUser->find('first', array(
+      'conditions' => array(
+        'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
+      ),
+      'contain' => false
+    ));
+
+    $committee = $this->Committee->find('first', array(
+      'conditions' => array(
+        'Committee.name' => $name
+      ),
+      'contain' => array(
+        'CommitteeUser' => array(
+          'User' => array(
+            'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image')
+          ),
+          'conditions' => array(
+            'CommitteeUser.user_id !=' =>  $this->Session->read('Auth.User.id'),
+            'CommitteeUser.approved' => true
+          ),
+          'limit' => 10
+        ), 
+        'User' => array(
+          'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
+        )
+      )
+    ));
+
+    $this->set(compact('committee', 'pending'));
   }
 
   /**
@@ -14,6 +49,17 @@ class CommitteesController extends AppController{
    */
   public function join(){
 
+    if($this->Session->read('Auth.User.Role.name') === 'Member' && $this->Session->read('Auth.User.committee_user_count') > 0){
+      $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+
+      $committee = $this->Committee->CommitteeUser->find('first', array(
+        'conditions' => array(
+          'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
+        ),
+        'contain' => 'Committee'
+      ));
+      $this->redirect(array('action' => 'pending', strtolower($committee['Committee']['name'])));
+    }
 
     if($this->request->is('post')){
 
