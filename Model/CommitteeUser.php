@@ -26,6 +26,11 @@ class CommitteeUser extends AppModel {
     )
   );
 
+  /**
+   * Verify if the user is already registered to the selected committee
+   * @return boolean
+   * 
+   */
   public function isRegistered(){
     $isRegistered = $this->find('count', array(
       'conditions' => array(
@@ -37,17 +42,23 @@ class CommitteeUser extends AppModel {
     return (!$isRegistered) ? true : false;
   }
 
-  public function standardAccount($conditions){
+
+  /**
+   * Check if the user has authorization to join more than 1 committee
+   * @return boolean
+   * 
+   */
+  public function standardAccount(){
     $this->User->Behaviors->attach('Containable');
     $user = $this->User->find('first', array(
-      'fields' => array('id'),
+      'fields' => array('id', 'committee_user_count'),
       'conditions' => array(
         'User.id' => $this->data['CommitteeUser']['user_id']
       ),
-      'contain' => array('Role.name', 'CommitteeUser.id')
+      'contain' => array('Role.name')
     ));
 
-    if(count($user['CommitteeUser']) > 0 && $user['Role']['name'] === 'Member'){
+    if($user['User']['committee_user_count'] > 0 && $user['Role']['name'] === 'Member'){
       return false;
     }
 
