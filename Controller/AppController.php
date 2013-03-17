@@ -49,6 +49,15 @@ class AppController extends Controller {
     )
   );
 
+  public function beforeFilter(){
+    parent::beforeFilter();
+  
+    if(strstr($this->here, '.json')){
+      $this->viewClass = 'Json';
+    }
+
+  }
+
   /**
    * Sends emails dynamically
    * @param  string $to      
