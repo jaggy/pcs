@@ -9,8 +9,20 @@ class CommitteesController extends AppController{
    *   
    */
   public function join(){
+    if($this->request->is('post')){
+
+      $this->request->data['CommitteeUser']['user_id'] = $this->Session->read('Auth.User.id');
+      if($this->Committee->CommitteeUser->save($this->request->data)){
+        $this->Session->setFlash(__('Joined committee'));
+        $this->redirect(array('action' => 'index'));
+      }else{
+        $this->Session->setFlash(__('Something went wrong'));
+      }
+
+    }
+
     $this->set('committees', $this->Committee->find('list'));
-  }
+  }  
 
   /**
    * Display all the committees
