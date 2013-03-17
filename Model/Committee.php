@@ -3,14 +3,12 @@
 App::uses('AppModel', 'Model');
 class Committee extends AppModel {
 
-    public $hasAndBelongsToMany = array(
-      'User' => array(
-        'className' => 'User',
-        'joinTable' => 'committees_users',
-        'foreignKey' => 'committee_id',
-        'associationForeignKey' => 'user_id',
-        'unique' => 'keepExisting'
-      )
-    );
+  public $hasMany = array(
+    'CommitteeUser' => array(
+      'className' => 'CommitteeUser',
+      'foreignKey' => 'committee_id',
+      'dependent' => false
+    )
+  );
 
 }

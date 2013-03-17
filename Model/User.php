@@ -4,6 +4,8 @@ App::uses('AppModel', 'Model');
 App::uses('AuthComponent', 'Controller/Component');
 class User extends AppModel {
 
+  public $displayField = 'username';
+
   public $validate = array(
     'first_name' => array(
       'notempty'   => array(
@@ -154,13 +156,11 @@ class User extends AppModel {
 
   }
 
-  public $hasAndBelongsToMany = array(
-    'Committee' => array(
-      'className' => 'Committee',
-      'joinTable' => 'committees_users',
+  public $hasMany = array(
+    'CommitteeUser' => array(
+      'className' => 'CommitteeUser',
       'foreignKey' => 'user_id',
-      'associationForeignKey' => 'committee_id',
-      'unique' => 'keepExisting'
+      'dependent' => false
     )
   );
 
