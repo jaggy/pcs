@@ -17,5 +17,7 @@
 			<?php echo $this->fetch('content'); ?>
 	</div>
 </body>
-		<?php $this->fetch('script'); ?>
+		<?php echo $this->Html->script('jquery.min'); ?>
+		<?php echo $this->Html->script('main'); ?>
+		<?php echo $this->fetch('script'); ?>
 </html>

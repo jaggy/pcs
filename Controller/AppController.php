@@ -33,7 +33,30 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-  public $components = array('Session', 'Email');
+  public $helpers = array('Html', 'Form', 'Session');
+  public $components = array(
+    'Session', 'Email', 
+    'Auth' => array(
+      'loginAction' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => '/',
+      'authenticate' => array(
+        'Form' => array(
+          'scope' => array('status' => 1)
+        )
+      )
+
+    )
+  );
+
+  public function beforeFilter(){
+    parent::beforeFilter();
+  
+    if(strstr($this->here, '.json')){
+      $this->viewClass = 'Json';
+    }
+
+  }
 
   /**
    * Sends emails dynamically

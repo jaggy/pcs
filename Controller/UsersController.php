@@ -5,6 +5,85 @@ class UsersController extends AppController{
 
 
   /**
+   * Update own settings and update the session as well
+   * 
+   */
+  public function settings(){
+      
+      if($this->request->is('post') || $this->request->is('put')){
+
+        $this->request->data['User'] = array_filter($this->request->data['User']);
+        $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
+
+        if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = '';
+        if(!isset($this->request->data['User']['description'])) $this->request->data['User']['description'] = '';
+
+        if(!isset($this->request->data['User']['image']['name'])){
+          unset($this->request->data['User']['image']);
+        }
+
+        $this->User->id = $this->Session->read('Auth.User.id');
+        if($this->User->save($this->request->data)){
+
+          $user = $this->User->read();
+          $session = $user['User'];
+
+          unset($user['User']);
+          $session = array_merge($session, $user);
+
+          $this->Auth->login($session);
+          $this->Session->setFlash(__('Profile updated'));
+        }else{
+          $this->Session->setFlash(__('Uh-oh. Something went wrong!'));
+        }
+
+      }else{
+        $this->request->data = $this->User->find('first', array(
+          'conditions' => array(
+            "User.{$this->User->primaryKey}" => $this->Session->read('Auth.User.id')
+          )
+        ));
+      }
+
+      $this->set('user', $this->Session->read('Auth.User'));
+  }
+
+
+  public function login(){
+
+    if($this->Auth->user()){
+      $this->redirect('/', null, false);
+    }
+
+    if($this->request->is('post')){
+
+      if($this->Auth->login()){
+        $this->redirect($this->Auth->redirect());
+      }else{
+        $this->User->Behaviors->attach('Containable');
+        $user = $this->User->find('first', array(
+          'conditions' => array(
+            'User.username' => $this->request->data['User']['username']
+          ),
+          'contain' => false
+        ));
+
+        if(isset($user['User']) && !$user['User']['status']){
+          $this->Session->setFlash(__('Your account has not been activated'));
+        }else{
+          $this->Session->setFlash(__('Invalid username or password'));         
+        }
+
+      }
+
+    }
+  }
+
+  public function logout(){
+    $this->redirect($this->Auth->logout());
+  }
+
+  /**
    * Display all the users
    * 
    */
