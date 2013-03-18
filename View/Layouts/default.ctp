@@ -18,5 +18,6 @@
 	</div>
 </body>
 		<?php echo $this->Html->script('jquery.min'); ?>
+		<?php echo $this->Html->script('main'); ?>
 		<?php echo $this->fetch('script'); ?>
 </html>
