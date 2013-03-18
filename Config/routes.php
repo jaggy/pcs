@@ -17,7 +17,9 @@
   Router::connect('/committee/join', array('controller' => 'committees', 'action' => 'join'));
   Router::connect('/committee/*', array('controller' => 'committees', 'action' => 'view'));
 
-  
+
+  // Accept all .json urls
+  Router::parseExtensions('json');  
 	CakePlugin::routes();
 
   // CakePHP default routes

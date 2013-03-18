@@ -43,6 +43,7 @@ class CommitteesController extends AppController{
     ));
 
     $this->set(compact('committee', 'pending'));
+    $this->set('_serialize', array('committee'));
   }
 
   /**
