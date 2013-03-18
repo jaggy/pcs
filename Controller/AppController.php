@@ -32,4 +32,52 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+  public $helpers = array('Html', 'Form', 'Session');
+  public $components = array(
+    'Session', 'Email', 
+    'Auth' => array(
+      'loginAction' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+      'logoutRedirect' => '/',
+      'authenticate' => array(
+        'Form' => array(
+          'scope' => array('status' => 1)
+        )
+      )
+
+    )
+  );
+
+  public function beforeFilter(){
+    parent::beforeFilter();
+  
+    if(strstr($this->here, '.json')){
+      $this->viewClass = 'Json';
+    }
+
+  }
+
+  /**
+   * Sends emails dynamically
+   * @param  string $to      
+   * @param  string $subject 
+   * @param  text $message 
+   * @return void
+   */
+  public function sendMail($to, $subject, $message){
+    $this->Email->smtpOptions = array(
+      'port'=>'465',
+      'timeout'=>'30',
+      'host' => 'ssl://smtp.gmail.com',
+      'username'=> Configure::read('Email.username'),
+      'password'=> Configure::read('Email.password')
+    );
+
+    $this->Email->delivery = 'smtp';
+    $this->Email->subject = $subject;
+    $this->Email->from = sprintf("Sender <%s>", Configure::read('Email.username'));
+    $this->Email->to = "Recipient <{$to}>";
+    $this->Email->send($message);
+  }
 }
