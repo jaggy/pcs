@@ -4,6 +4,26 @@ App::uses('AppController', 'Controller');
 class CommitteesController extends AppController{
 
 
+  public function pending(){
+    $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+
+    $accounts = $this->Committee-find('all', array(
+      'fields' => array('name', 'description', 'user_id'),
+      'contain' => array(
+        'CommitteeUser' => array(
+          'condtions' => array(
+            'approved' => false
+          )
+        ),
+        'User' => array(
+          'fields' => array('first_name', 'middle_name', 'last_name', 'username')
+        )
+      )
+    ));
+
+    $this->set(compact('accounts'));
+  }
+
   /**
    * Display the committee
    * 
