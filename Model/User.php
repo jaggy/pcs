@@ -161,6 +161,11 @@ class User extends AppModel {
       'className' => 'CommitteeUser',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Discussion' => array(
+      'className' => 'Discussion',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 

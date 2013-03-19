@@ -8,7 +8,12 @@ class Committee extends AppModel {
       'className' => 'CommitteeUser',
       'foreignKey' => 'committee_id',
       'dependent' => false
-    )
+    ),
+    'Discussion' => array(
+      'className' => 'Discussion',
+      'foreignKey' => 'committee_id',
+      'dependent' => false
+    ),
   );
 
   public $belongsTo = array(
