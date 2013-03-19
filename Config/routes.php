@@ -18,6 +18,12 @@
   Router::connect('/committee/*', array('controller' => 'committees', 'action' => 'view'));
 
 
+  /**
+   * Dscussion
+   */
+  Router::connect('/discussion/*', array('controller' => 'discussions', 'action' => 'create'));
+
+
   // Accept all .json urls
   Router::parseExtensions('json');  
 	CakePlugin::routes();

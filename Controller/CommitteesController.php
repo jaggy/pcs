@@ -114,7 +114,8 @@ class CommitteesController extends AppController{
         ), 
         'User' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
-        )
+        ),
+        'Discussion'
       )
     ));
 

@@ -39,6 +39,22 @@
   <?php endif; ?>
 </div>
 
+<div class="discussions">
+  <h3>Discussions</h3>
+
+  <div>
+    <?php echo $this->Html->link('Create Discussion', array('controller' => 'discussions', 'action' => 'create')); ?>
+  </div>
+
+  <ul>
+
+  <?php foreach($committee['Discussion'] as $discussion): ?>
+    <li><?php echo $this->Html->link($discussion['title'], array('controller' => 'discussions', 'action' => 'view', $discussion['id'])) ?></li>
+  <?php endforeach; ?>
+
+  </ul>
+</div>
+
 <div class="members">
   <h3>Members</h3>
   <ul>
