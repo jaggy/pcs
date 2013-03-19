@@ -88,7 +88,7 @@ class User extends AppModel {
 
     if(isset($this->data['User']['image'])){
 
-      $user = $this->Find('first', array(
+      $user = $this->find('first', array(
         'conditions' => array(
           'User.id' => $this->id
         )
@@ -99,7 +99,7 @@ class User extends AppModel {
       $tmp = $this->data['User']['image']['tmp_name'];
       $extension = pathinfo($basename, PATHINFO_EXTENSION);
 
-      $filename = (!$user['User']['image']) ? String::uuid() . ".{$extension}" : $user['User']['image'];
+      $filename = (!$user['User']['image'] || $user['User']['image'] === 'default.jpg') ? String::uuid() . ".{$extension}" : $user['User']['image'];
       $destination = Configure::read('Data.user_images') . $filename;
       
       $this->data['User']['image'] = $filename;
