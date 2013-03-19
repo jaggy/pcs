@@ -11,7 +11,7 @@ class DiscussionsController extends AppController{
 
       $committee = $this->Discussion->Committee->find('first', array(
         'conditions' => array(
-          'Committee.name' => $type
+          'Committee.name' => str_replace('_', ' ', $type)
         ),
         'comtain' => false
       ));

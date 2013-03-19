@@ -43,7 +43,7 @@
   <h3>Discussions</h3>
 
   <div>
-    <?php echo $this->Html->link('Create Discussion', array('controller' => 'discussions', 'action' => 'create')); ?>
+    <?php echo $this->Html->link('Create Discussion', array('controller' => 'discussions', 'action' => 'create', strtolower(str_replace(' ', '_', $committee['Committee']['name'])))); ?>
   </div>
 
   <ul>
