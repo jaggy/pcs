@@ -45,18 +45,19 @@ class CommitteesController extends AppController{
       $this->Committee->CommitteeUser->id = $bridge['CommitteeUser']['id'];
       switch ($this->request->data['action']) {
         case 'approve':
-          $this->Committee->CommitteeUser->save(array('approved' => true));
+          $save = ($this->Committee->CommitteeUser->save(array('approved' => true))) ? true : false;
+          $this->set('response', $save);
         break;
         case 'disapprove':
-          $this->Committee->CommitteeUser->delete();
+          $this->set('response', $this->Committee->CommitteeUser->delete());
         break;
       }
 
-      $this->set('response', $this->request->data);
       $this->set('_serialize', array('response'));
     }
 
-    $committees = $this->Committee->find('all', array(
+    $committees = array();
+    $results = $this->Committee->find('all', array(
       'fields' => array('name', 'description', 'user_id'),
       'contain' => array(
         'CommitteeUser' => array(
@@ -69,6 +70,12 @@ class CommitteesController extends AppController{
         )
       )
     ));
+
+
+    foreach($results as $result){
+      if(!$result['CommitteeUser']) continue;
+      $committees[] = $result;
+    }
 
     $this->set(compact('committees'));
   }
@@ -124,7 +131,7 @@ class CommitteesController extends AppController{
     if($this->Session->read('Auth.User.Role.name') === 'Member' && $this->Session->read('Auth.User.committee_user_count') > 0){
       $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
-      $committee = $this->Committee->CommitteeUser->find('first', array(
+    $committee = $this->Committee->CommitteeUser->find('first', array(
         'conditions' => array(
           'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
         ),

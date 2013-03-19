@@ -1,8 +1,14 @@
 <?php echo $this->Html->script('committees/pending', array('inline' => false)); ?>
+
+<h2>Pending</h2>
+
+<div class="notice <?php if($committees) echo "hidden"; ?>">
+  <strong><em>There are no pending accounts</em></strong>
+</div>
 <?php foreach($committees as $committee): ?>
 
   <div class="committee <?= strtolower($committee['Committee']['name'])?>">
-    <h2><?= $committee['Committee']['name'] ?></h2>
+    <h3><?= $committee['Committee']['name'] ?></h3>
     <p><?= $committee['Committee']['description'] ?></p>
 
     <div class="users">
@@ -25,3 +31,4 @@
   </div>
 
 <?php endforeach; ?>
+

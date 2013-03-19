@@ -6,6 +6,15 @@
 // });
 
 
+function disappear(container){
+  container.animate({ height: 0, opacity: 0 }, 'slow', function(){
+    this.remove();
+
+    if($('div.committee').length === 0){
+      $('div.notice').fadeIn();
+    }
+  });
+}
 
 $('a[class^="js-"]').on('click', function(){
   var classes = $(this).attr('class').split(' ');
@@ -18,11 +27,20 @@ $('a[class^="js-"]').on('click', function(){
     username: username
   };
 
-  var container = $(this).parent().parent();
-  container.animate({ height: 0, opacity: 0 }, 'slow');
+  var user_container = $(this).parent().parent();
+  var committee_container = user_container.parent().parent();
+
+
+  if(committee_container.find('div.user').length === 1){
+    disappear(committee_container);
+  }
 
   $.post('/committees/pending.json', data, function(data){
-    console.error(data);
-    $('body').append(data);
+    if(data.response){
+      disappear(user_container);
+
+    }else{
+      // print error message
+    }
   });
 });
