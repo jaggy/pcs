@@ -4,7 +4,7 @@
 
 <fieldset>
   
-  <p><?php echo $this->Form->input('title'); ?></p>
+  <p><?php echo $this->Form->input('Discussion.title'); ?></p>
   <p><?php echo $this->Form->input('Post.content'); ?></p>
 
 </fieldset>
