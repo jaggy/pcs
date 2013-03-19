@@ -103,9 +103,16 @@ class UsersController extends AppController{
   public function register(){
     if($this->request->is('post')){
       $this->User->create();
+      $this->User->Role->Behaviors->attach('Containable');
 
-
+      $member= $this->User->Role->find('first', array(
+        'conditions' => array(
+          'name' => 'Member'
+        ),
+        'contain' => false
+      ));
       $this->request->data['User']['activation_key'] = String::uuid();
+      $this->request->data['User']['role_id'] = $member['Role']['id'];
       if($this->User->saveAll($this->request->data)){
         $this->sendMail(
           $this->data['User']['email'], 
