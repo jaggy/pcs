@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('committees/pending', array('inline' => false)); ?>
 <?php foreach($committees as $committee): ?>
 
   <div class="committee <?= strtolower($committee['Committee']['name'])?>">
@@ -13,11 +14,11 @@
         <p><?php echo $user['User']['description'] ?></p>
 
         <div class="actions">
-          <?php echo $this->Html->link('Approve', '#', array('class' => 'js-approve')); ?>
-          <?php echo $this->Html->link('Dispprove', '#', array('class' => 'js-disapprove')); ?>
+          <?php echo $this->Html->link('Approve', '#', array('class' => "js-approve ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}" )); ?>
+          <?php echo $this->Html->link('Dispprove', '#', array('class' => "js-disapprove ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}")); ?>
         </div>
       </div>
-
+  
     <?php endforeach; ?>
     </div> 
 
