@@ -166,6 +166,11 @@ class User extends AppModel {
       'className' => 'Discussion',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Post' => array(
+      'className' => 'Post',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 

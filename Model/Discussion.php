@@ -14,4 +14,12 @@ class Discussion extends AppModel {
     )
   );
 
+  public $hasMany = array(
+    'Post' => array(
+      'className' => 'Post',
+      'foreignKey' => 'discussion_id',
+      'dependent' => false
+    )
+  );
+
 }
