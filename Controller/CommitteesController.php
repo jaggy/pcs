@@ -4,24 +4,28 @@ App::uses('AppController', 'Controller');
 class CommitteesController extends AppController{
 
 
+  /**
+   * Approve or disapprove membership requests
+   * 
+   */
   public function pending(){
-    $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+    $this->Committee->Behaviors->attach('Containable');
 
-    $accounts = $this->Committee-find('all', array(
+    $committees = $this->Committee->find('all', array(
       'fields' => array('name', 'description', 'user_id'),
       'contain' => array(
         'CommitteeUser' => array(
-          'condtions' => array(
+          'conditions' => array(
             'approved' => false
+          ),
+          'User' => array(
+            'fields' => array('username', 'first_name', 'middle_name', 'last_name', 'image', 'description')
           )
-        ),
-        'User' => array(
-          'fields' => array('first_name', 'middle_name', 'last_name', 'username')
         )
       )
     ));
 
-    $this->set(compact('accounts'));
+    $this->set(compact('committees'));
   }
 
   /**
