@@ -4,6 +4,52 @@ App::uses('AppController', 'Controller');
 class DiscussionsController extends AppController{
   
 
+  /**
+   * View the discussion
+   * @param  int $id 
+   */
+  public function view($id = ''){
+
+    $this->Discussion->Post->Behaviors->attach('Containable');
+
+    $discussion = $this->Discussion->find('first', array(
+      'conditions' => array('Discussion.id' => $id),
+      'contain' => array(
+        'User' => array(
+          'fields' => array('username', 'first_name', 'last_name')
+        )
+      )
+    ));
+
+    if(!$discussion){
+      $this->redirect('/');
+    }
+
+    $this->paginate = array(
+      'limit' => 5,
+      'conditions' => array(
+        'Post.discussion_id' => $id,
+      ),
+      'contain' => array(
+        'User' => array(
+          'fields' => array('username', 'first_name', 'last_name', 'image', 'created'),
+          'Role' => array(
+            'fields' => array('name')
+          )
+        )
+      )
+    );
+
+    $posts = $this->paginate('Post');
+
+    $this->set(compact('discussion', 'posts'));
+  }
+
+  /**
+   * Create a new dicussion with post content
+   * @param  string $type 
+   * 
+   */
   public function create($type = ''){
    
     if($this->request->is('post')){
