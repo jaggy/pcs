@@ -1,4 +1,4 @@
-$('a[class^="js-"]').on('click', function(evt){
+$('a[class^="js-decide-"]').on('click', function(evt){
   evt.preventDefault();
 
   var classes = $(this).attr('class').split(' ');

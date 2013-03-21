@@ -20,8 +20,8 @@
         <p><?php echo $user['User']['description'] ?></p>
 
         <div class="actions">
-          <?php echo $this->Html->link('Approve', '#', array('class' => "js-approve ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}" )); ?>
-          <?php echo $this->Html->link('Dispprove', '#', array('class' => "js-disapprove ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}")); ?>
+          <?php echo $this->Html->link('Approve', '#', array('class' => "js-decide-approve ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}" )); ?>
+          <?php echo $this->Html->link('Dispprove', '#', array('class' => "js-decide-disapprove ". str_replace(' ', '_', strtolower($committee['Committee']['name'])) ." {$user['User']['username']}")); ?>
         </div>
       </div>
   
