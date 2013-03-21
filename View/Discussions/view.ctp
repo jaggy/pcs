@@ -1,3 +1,4 @@
+<?php echo $this->Html->script('discussions/view', array('inline' => false)); ?>
 <div class="discussion">
   <h2><?php echo $discussion['Discussion']['title'] ?></h2>
   <div class="details">
@@ -18,7 +19,7 @@
 </div>
 <div class="posts">
 
-  <?php foreach($posts as $post): ?>
+  <?php foreach($posts as $post): ?>  
     <div class="post">
       <div class="user">
         <?php echo $this->Html->image("/profile/{$post['User']['image']}") ?>
@@ -30,7 +31,14 @@
       Posted on: <?php echo date('F d. Y', strtotime($post['Post']['created'])) ?>
 
       <div class="actions">
-        <a href="#"></a>
+        <a href="#">Report Post</a>
+        <a href="#" class="js-reply post-<?= $post['Post']['id']?>">Reply</a>
+      </div>
+
+      <div class="reply-box-<?= $post['Post']['id']?> hidden">
+        <label for="Reply<?= $post['Post']['id']?>Content">Reply</label>
+        <textarea name="data[Reply][content]" id="Reply<?= $post['Post']['id']?>Content" cols="30" rows="10"></textarea>
+        <button id="AjaxReply<?= $post['Post']['id']?>">Reply </button>
       </div>
     </div>
   <?php endforeach; ?>
