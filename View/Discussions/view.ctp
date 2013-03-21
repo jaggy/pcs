@@ -7,8 +7,15 @@
       $discussion['User']['username']
     )) ?>
   </div>
+
+  <div class="post">
+    <p><?php echo $discussion['Discussion']['post'] ?></p>
+  </div>
 </div>
 
+<div class="actions">
+  <?php echo $this->Html->link('Reply', array('controller' => 'discussions', 'action' => 'reply', $discussion['Discussion']['id'])) ?>
+</div>
 <div class="posts">
 
   <?php foreach($posts as $post): ?>
@@ -20,9 +27,16 @@
       </div>
 
       <p><?php echo $post['Post']['content'] ?></p>
+      Posted on: <?php echo date('F d. Y', strtotime($post['Post']['created'])) ?>
+
+      <div class="actions">
+        <a href="#"></a>
+      </div>
     </div>
   <?php endforeach; ?>
 
+
+  <?php if($this->paginator->numbers()): ?>
 
   <div class="pagination">
     <?php $route = array('url' => array('controller' => 'discussions', 'action' => 'view', $discussion['Discussion']['id'] )) ; ?>
@@ -33,5 +47,6 @@
     &nbsp;
     <?php echo $this->paginator->next('Next >>', $route); ?>
   </div>
+<?php endif; ?> 
 </div>
 

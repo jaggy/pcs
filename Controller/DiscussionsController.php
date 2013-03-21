@@ -62,11 +62,10 @@ class DiscussionsController extends AppController{
         'contain' => false
       ));
 
-      $this->request->data['Post']['user_id'] = $this->Session->read('Auth.User.id');
       $this->request->data['Discussion']['user_id'] = $this->Session->read('Auth.User.id');
       $this->request->data['Discussion']['committee_id'] = $committee['Committee']['id'];
 
-      if($this->Discussion->Post->saveAll($this->request->data)){
+      if($this->Discussion->save($this->request->data)){
         $this->Session->setFlash(__('Discussion created'));
         $this->redirect(array(
           'controller' => 'committees',
