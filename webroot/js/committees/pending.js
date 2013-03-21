@@ -1,21 +1,3 @@
-// $('.add-fav').click(function() {
-//     var id = $(this).attr('id');
-//     $.post('/ajax/addFavorite',{id:id}, function(data){
-//    console.log(data);
-//     }, 'json');
-// });
-
-
-function disappear(container){
-  container.animate({ height: 0, opacity: 0 }, 'slow', function(){
-    this.remove();
-
-    if($('div.committee').length === 0){
-      $('div.notice').fadeIn();
-    }
-  });
-}
-
 $('a[class^="js-"]').on('click', function(){
   var classes = $(this).attr('class').split(' ');
   var action = last(classes[0].split('-'));
@@ -38,7 +20,9 @@ $('a[class^="js-"]').on('click', function(){
   $.post('/committees/pending.json', data, function(data){
     if(data.response){
       disappear(user_container);
-
+      if($('div.committee').length === 0){
+        $('div.notice').fadeIn();
+      }
     }else{
       // print error message
     }
