@@ -32,13 +32,13 @@
 
       <div class="actions">
         <a href="#">Report Post</a>
-        <a href="#" class="js-reply post-<?= $post['Post']['id']?>">Reply</a>
+        <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
       </div>
 
       <div class="reply-box-<?= $post['Post']['id']?> hidden">
         <label for="Reply<?= $post['Post']['id']?>Content">Reply</label>
-        <textarea name="data[Reply][content]" id="Reply<?= $post['Post']['id']?>Content" cols="30" rows="10"></textarea>
-        <button id="AjaxReply<?= $post['Post']['id']?>">Reply </button>
+        <textarea name="data[Reply][<?= $post['Post']['id']?>][content]" id="Reply<?= $post['Post']['id']?>Content" cols="30" rows="10"></textarea>
+        <button id="AjaxReply<?= $post['Post']['id']?>" class="js-reply-send post-<?= $post['Post']['id']?>">Reply</button>
       </div>
     </div>
   <?php endforeach; ?>
