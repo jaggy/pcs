@@ -171,6 +171,11 @@ class User extends AppModel {
       'className' => 'Post',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Reply' => array(
+      'className' => 'Reply',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 

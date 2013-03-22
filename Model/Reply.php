@@ -8,7 +8,11 @@ class Reply extends AppModel {
       'Post' => array(
         'className' => 'Post',
         'foreignKey' => 'post_id'
-      )
+      ),
+      'User' => array(
+        'className' => 'User',
+        'foreignKey' => 'user_id'
+      ),
     );
 
 }
