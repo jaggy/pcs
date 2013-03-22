@@ -3,7 +3,13 @@
 App::uses('AppModel', 'Model');
 class Post extends AppModel {
 
-
+  public $hasMany = array(
+    'Reply' => array(
+      'className' => 'Reply',
+      'foreignKey' => 'post_id',
+      'dependent' => false
+    )
+  );
   
   public $belongsTo = array(
     'Discussion' => array(
