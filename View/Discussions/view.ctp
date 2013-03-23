@@ -35,10 +35,20 @@
         <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
       </div>
 
-      <div class="reply-box-<?= $post['Post']['id']?> hidden">
-        <label for="Reply<?= $post['Post']['id']?>Content">Reply</label>
-        <textarea name="data[Reply][<?= $post['Post']['id']?>][content]" id="Reply<?= $post['Post']['id']?>Content" cols="30" rows="10"></textarea>
-        <button id="AjaxReply<?= $post['Post']['id']?>" class="js-reply-send post-<?= $post['Post']['id']?>">Reply</button>
+      <div class="replies">
+        <ul>
+          <?php foreach($post['Reply'] as $reply): ?>
+              <li> 
+                <strong><?php echo $this->Html->link("{$reply['User']['first_name']} {$reply['User']['middle_name']} {$reply['User']['last_name']}", array('controller'=>'users', 'action' => 'profile', $reply['User']['username'])) ?></strong>: 
+                <span><?php echo $reply['content'] ?></span>
+              </li>
+          <?php endforeach; ?>
+            <li class="reply-box-<?= $post['Post']['id']?> hidden">
+              <label for="Reply<?= $post['Post']['id']?>Content">Reply</label>
+              <input type="text" class="js-reply-input-<?= $post['Post']['id']?> post-<?= $post['Post']['id']?>" name="data[Reply][<?= $post['Post']['id']?>][content]" id="Reply<?= $post['Post']['id']?>Content" />
+              <button id="AjaxReply<?= $post['Post']['id']?>" class="js-reply-send post-<?= $post['Post']['id']?>">Reply</button>
+            </li>
+        </ul>
       </div>
     </div>
   <?php endforeach; ?>

@@ -24,7 +24,7 @@ class DiscussionsController extends AppController{
     if(!$discussion){
       $this->redirect('/');
     }
-
+  
     $this->paginate = array(
       'limit' => 5,
       'conditions' => array(
@@ -35,6 +35,11 @@ class DiscussionsController extends AppController{
           'fields' => array('username', 'first_name', 'last_name', 'image', 'created'),
           'Role' => array(
             'fields' => array('name')
+          )
+        ),
+        'Reply' => array(
+          'User' => array(
+            'fields' => array('username', ' first_name', 'middle_name', 'last_name')
           )
         )
       )
