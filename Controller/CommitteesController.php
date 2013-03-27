@@ -5,6 +5,82 @@ class CommitteesController extends AppController{
 
 
   /**
+   * Approve or disapprove membership requests
+   * 
+   */
+  public function pending(){
+    $this->Committee->Behaviors->attach('Containable');
+
+    if($this->request->is('post')){
+      $this->Committee->CommitteeUser->User->Behaviors->attach('Containable');
+      $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+
+      $committee_name = str_replace('_', ' ', $this->request->data['committee']);
+
+      $user = $this->Committee->CommitteeUser->User->find('first', array(
+        'fields' => array('id', 'username'),
+        'conditions' => array(
+          'User.username' => $this->request->data['username']
+        ),
+        'contain' => false
+      ));
+
+
+      $committee = $this->Committee->find('first', array(
+        'fields' => array('id', 'name'),
+        'conditions' => array(
+          'Committee.name' => $committee_name
+        ),
+        'contain' => false
+      ));
+
+      $bridge = $this->Committee->CommitteeUser->find('first', array(
+        'conditions' => array(
+          'user_id' => $user['User']['id'],
+          'committee_id' => $committee['Committee']['id']
+        ),
+        'contain' => false
+      ));
+
+      $this->Committee->CommitteeUser->id = $bridge['CommitteeUser']['id'];
+      switch ($this->request->data['action']) {
+        case 'approve':
+          $save = ($this->Committee->CommitteeUser->save(array('approved' => true))) ? true : false;
+          $this->set('response', $save);
+        break;
+        case 'disapprove':
+          $this->set('response', $this->Committee->CommitteeUser->delete());
+        break;
+      }
+
+      $this->set('_serialize', array('response'));
+    }
+
+    $committees = array();
+    $results = $this->Committee->find('all', array(
+      'fields' => array('name', 'description', 'user_id'),
+      'contain' => array(
+        'CommitteeUser' => array(
+          'conditions' => array(
+            'approved' => false
+          ),
+          'User' => array(
+            'fields' => array('username', 'first_name', 'middle_name', 'last_name', 'image', 'description')
+          )
+        )
+      )
+    ));
+
+
+    foreach($results as $result){
+      if(!$result['CommitteeUser']) continue;
+      $committees[] = $result;
+    }
+
+    $this->set(compact('committees'));
+  }
+
+  /**
    * Display the committee
    * 
    */
@@ -38,7 +114,8 @@ class CommitteesController extends AppController{
         ), 
         'User' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
-        )
+        ),
+        'Discussion'
       )
     ));
 
@@ -55,7 +132,7 @@ class CommitteesController extends AppController{
     if($this->Session->read('Auth.User.Role.name') === 'Member' && $this->Session->read('Auth.User.committee_user_count') > 0){
       $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
-      $committee = $this->Committee->CommitteeUser->find('first', array(
+    $committee = $this->Committee->CommitteeUser->find('first', array(
         'conditions' => array(
           'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
         ),

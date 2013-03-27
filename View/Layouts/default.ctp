@@ -6,6 +6,8 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
+
+		echo $this->Html->css('bootstrap');
 		echo $this->Html->meta('icon');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
