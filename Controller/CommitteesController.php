@@ -112,7 +112,10 @@ class CommitteesController extends AppController{
           ),
           'limit' => 10
         ), 
-        'User' => array(
+        'Chairman' => array(
+          'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
+        ),
+        'CoChairman' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
         ),
         'Discussion'
