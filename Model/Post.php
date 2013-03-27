@@ -19,10 +19,6 @@ class Post extends AppModel {
     'User' => array(
       'className' => 'User',
       'foreignKey' => 'user_id'
-    ),
-    'Post' => array(
-      'className' => 'Post',
-      'foreignKey' => 'post_id'
     )
   );
 
