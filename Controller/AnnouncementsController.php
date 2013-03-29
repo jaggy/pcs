@@ -5,7 +5,16 @@ class AnnouncementsController extends AppController{
   
     public function index(){}
     
-    public function view($id = null){}
+    public function view($id = null){
+
+      $this->Announcement->id = $id;
+
+      if(!$this->Announcement->exists()){
+        $this->redirect(array('action' => 'index'));
+      }
+
+      $this->set('announcement', $this->Announcement->read());
+    }
     
     public function add(){
 
@@ -17,7 +26,7 @@ class AnnouncementsController extends AppController{
           $this->Session->setFlash(__('Announcement created successfully!'));
           $this->redirect(array('action' => 'view', $this->Announcement->id));
         }else{
-          $this->Session->setFlash(__('Something went wrong!'));
+          $this->Session->setFlash(__('Something went wrong'));
         }
       }
     }
