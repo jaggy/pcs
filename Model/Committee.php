@@ -27,4 +27,27 @@ class Committee extends AppModel {
     )
   );
 
+  public function available(){
+    $this->Behaviors->attach('Containable');
+    App::uses('CakeSession', 'Model/Database');
+
+    $committees = array();
+    $results = $this->find('all', array(
+      'contain' => array(
+        'CommitteeUser' => array(
+          'conditions' => array(
+            'CommitteeUser.user_id' => CakeSession::read('Auth.User.id')
+          )
+        )
+      )
+    ));
+
+
+    foreach($results as $result){
+      if(!$result['CommitteeUser']) $committees[$result['Committee']['id']] = $result['Committee']['name']; 
+    }
+
+    return $committees;
+  }
+
 }
