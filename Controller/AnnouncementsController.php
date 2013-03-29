@@ -59,6 +59,23 @@ class AnnouncementsController extends AppController{
       $this->set('id', $this->Announcement->id);
     }
     
-    public function delete($id = null){}
+
+    public function delete($id = null){
+
+      $this->Announcement->id = $id;
+
+      if(!$this->Announcement->exists()){
+        $this->redirect(array('action' => 'index'));
+      }
+
+      if($this->Announcement->delete()){
+        $this->Session->setFlash(__('Announcement deleted'));
+        $this->redirect(array('action' => 'index'));
+      }
+
+      $this->Session->setFlash(__('Uh-oh! Something went wrong'));
+      $this->redirect(array('action' => 'index'));
+
+    }
 
 }
