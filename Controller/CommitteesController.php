@@ -153,7 +153,7 @@ class CommitteesController extends AppController{
         'contain' => 'Committee'
       ));
 
-      $this->redirect(array('action' => 'view', strtolower($committee['Committee']['name'])));
+      $this->redirect(array('action' => 'view', strtolower(str_replace(' ', '_', $committee['Committee']['name']))));
     }
 
 

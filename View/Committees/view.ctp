@@ -1,5 +1,5 @@
 <h2><?php echo $committee['Committee']['name'] ?></h2>
-<?php if($pending && !$pending['CommitteeUser']['approved']): ?>
+<?php if($pending && !$pending['CommitteeUser'][0]['approved']): ?>
   <em>Your membership is yet to be approved</em>
 <?php endif;?>
 
