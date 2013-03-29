@@ -7,7 +7,18 @@ class AnnouncementsController extends AppController{
       'Markdown'
     );
   
-    public function index(){}
+    public function index(){
+
+      $this->paginate = array(
+        'limit' => 6,
+        'order' => array(
+          'Announcement.created' => 'DESC'
+        )
+      );
+      
+      $this->set('announcements', $this->paginate('Announcement'));
+    }
+
     
     public function view($id = null){
 
