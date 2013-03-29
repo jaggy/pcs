@@ -2,6 +2,10 @@
 
 App::uses('AppController', 'Controller');
 class AnnouncementsController extends AppController{
+
+    public $helpers = array(
+      'Markdown'
+    );
   
     public function index(){}
     
