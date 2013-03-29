@@ -1,6 +1,6 @@
 <h1><?php echo $announcement['Announcement']['title'] ?></h1>
 
-<?php echo $announcement['Announcement']['content'] ?>
+<?php echo Markdown($announcement['Announcement']['content']); ?>
 
 <p>
   <em>Posted <?php echo date('F d, Y', strtotime($announcement['Announcement']['created'])) ?></em>
