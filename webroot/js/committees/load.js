@@ -5,7 +5,7 @@ var template = {
 };
 
 function display_data(){
-  $('.members ul, div.head').empty();
+  $('.members ul, div.management > .chairman, div.management > .co-chairman').empty();
   var committee = $(".js-fetch option:selected").text();
   var parsed_name = committee.replace(/\ /g, '_').toLowerCase();
 
@@ -19,41 +19,62 @@ function display_data(){
 
       var name = '';
       var users = data.committee.CommitteeUser;
-      var user = {};
+      var chairman = {};
+      var co_chairman = {};
       var clone = '';
 
-      user = data.committee.User;
-      if(user.username === null){
-        $('.head').append("<h3><em>There's no committee head yet.</em></h3>");
+      chairman = data.committee.Chairman;
+      co_chairman = data.committee.CoChairman;
+
+      if(chairman.username === null){
+        $('.management > .chairman').append("<h3><em>There's still no chairperson appointed.</em></h3>");
       }else{
         clone = $(template.head).clone();
 
-        if(user.middle_name){
-          name = user.first_name + ' ' + user.middle_name + ' ' + user.last_name;
+        if(chairman.middle_name){
+          name = chairman.first_name + ' ' + chairman.middle_name + ' ' + chairman.last_name;
         }else{
-          name = user.first_name + ' ' + user.last_name;
+          name = chairman.first_name + ' ' + chairman.last_name;
         }
 
-        clone.find('img').attr('src', '/profile/' + user.image).attr('alt', user.username);
-        clone.find('a').attr('href', '/profile/' + user.username);
+        clone.find('img').attr('src', '/profile/' + chairman.image).attr('alt', chairman.username);
+        clone.find('a').attr('href', '/profile/' + chairman.username);
         clone.find('strong').text(name);
-        clone.find('p').text(user.description);
-        $('div.head').append(clone);
+        if(chairman.description) clone.find('p').text(chairman.description);
+        $('div.management > .chairman').append(clone);
+      }
+
+      if(co_chairman.username === null){
+        $('.management > .co-chairman').append("<h3><em>There's still no co-chairperson appointed.</em></h3>");
+      }else{
+        clone = $(template.head).clone();
+
+        if(co_chairman.middle_name){
+          name = co_chairman.first_name + ' ' + co_chairman.middle_name + ' ' + co_chairman.last_name;
+        }else{
+          name = co_chairman.first_name + ' ' + co_chairman.last_name;
+        }
+
+        clone.find('img').attr('src', '/profile/' + co_chairman.image).attr('alt', co_chairman.username);
+        clone.find('a').attr('href', '/profile/' + co_chairman.username);
+        clone.find('strong').text(name);
+        if(co_chairman.description) clone.find('p').text(co_chairman.description);
+        $('div.management > .co-chairman').append(clone);
       }
 
 
       for(var key in users){
-        user = users[key].User;
+        member = users[key].User;
         clone = $(template.members).clone();
 
-        if(user.middle_name){
-          name = user.first_name + ' ' + user.middle_name + ' ' + user.last_name;
+        if(member.middle_name){
+          name = member.first_name + ' ' + member.middle_name + ' ' + member.last_name;
         }else{
-          name = user.first_name + ' ' + user.last_name;
+          name = member.first_name + ' ' + member.last_name;
         }
 
-        clone.find('img').attr('src', '/profile/' + user.image).attr('alt', user.username);
-        clone.find('a').attr('href', '/profile/' + user.username);
+        clone.find('img').attr('src', '/profile/' + member.image).attr('alt', member.username);
+        clone.find('a').attr('href', '/profile/' + member.username);
         clone.find('strong').text(name);
         $('div.members >ul').append(clone);
       }
