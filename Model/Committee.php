@@ -17,9 +17,13 @@ class Committee extends AppModel {
   );
 
   public $belongsTo = array(
-    'User' => array(
+    'Chairman' => array(
       'className' => 'User',
-      'foreignKey' => 'user_id'
+      'foreignKey' => 'chairman_id'
+    ),
+    'CoChairman' => array(
+      'className' => 'User',
+      'foreignKey' => 'co-chairman_id'
     )
   );
 

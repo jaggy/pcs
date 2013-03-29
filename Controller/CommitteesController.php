@@ -112,7 +112,10 @@ class CommitteesController extends AppController{
           ),
           'limit' => 10
         ), 
-        'User' => array(
+        'Chairman' => array(
+          'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
+        ),
+        'CoChairman' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
         ),
         'Discussion'
@@ -130,7 +133,7 @@ class CommitteesController extends AppController{
   public function join(){
 
     if($this->Session->read('Auth.User.Role.name') === 'Member' && $this->Session->read('Auth.User.committee_user_count') > 0){
-      $this->Committee->CommitteeUser->Behaviors->attach('Containable');
+    $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
     $committee = $this->Committee->CommitteeUser->find('first', array(
         'conditions' => array(
@@ -142,8 +145,8 @@ class CommitteesController extends AppController{
     }
 
     if($this->request->is('post')){
-
       $this->request->data['CommitteeUser']['user_id'] = $this->Session->read('Auth.User.id');
+
       if($this->Committee->CommitteeUser->save($this->request->data)){
         $this->Committee->CommitteeUser->User->Behaviors->attach('Containable');
 
@@ -151,8 +154,9 @@ class CommitteesController extends AppController{
           'conditions' => array(
             'User.id' => $this->Session->read('Auth.User.id')
           ),
-          'contain' => array('Role', 'Committee')
+          'contain' => array('Role', 'Chairman')
         ));
+
         $session = $user['User'];
 
         unset($user['User']);
