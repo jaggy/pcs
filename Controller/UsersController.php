@@ -15,8 +15,8 @@ class UsersController extends AppController{
         $this->request->data['User'] = array_filter($this->request->data['User']);
         $this->request->data['User']['image'] = array_filter($this->request->data['User']['image']);
 
-        if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = '';
-        if(!isset($this->request->data['User']['description'])) $this->request->data['User']['description'] = '';
+        if(!isset($this->request->data['User']['middle_name'])) $this->request->data['User']['middle_name'] = null;
+        if(!isset($this->request->data['User']['description'])) $this->request->data['User']['description'] = null;
 
         if(!isset($this->request->data['User']['image']['name'])){
           unset($this->request->data['User']['image']);

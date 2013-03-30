@@ -56,6 +56,13 @@ class AnnouncementsController extends AppController{
 
       if($this->request->is('post') || $this->request->is('put')){
 
+
+        $this->request->data['Announcement']['image'] = array_filter($this->request->data['Announcement']['image']);
+ 
+        if(!isset($this->request->data['Announcement']['image']['name'])){
+          unset($this->request->data['Announcement']['image']);
+        }
+
         if($this->Announcement->save($this->request->data)){
           $this->Session->setFlash(__('Announcement updated'));
           $this->redirect(array('action' => 'view', $this->Announcement->id));
