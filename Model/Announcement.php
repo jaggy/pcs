@@ -32,6 +32,34 @@ class Announcement extends AppModel {
       'foreignKey' => 'user_id'
     )
   );
-      
+
+  public function saveImage(){
+
+    if(!empty($this->data['Announcement']['image']['name'])){
+
+      $basename = $this->data['Announcement']['image']['name'];
+      $tmp = $this->data['Announcement']['image']['tmp_name'];
+      $extension = pathinfo($basename, PATHINFO_EXTENSION);
+
+      $filename = String::uuid() . '.' . $extension;
+      $destination = Configure::read('Data.post_images') . $filename;
+
+      $this->data['Announcement']['image'] = $filename;
+
+      if(!move_uploaded_file($tmp, $destination)){
+        return false;
+      }
+
+    }
+
+  }      
+
+
+  public function beforeSave($options = array()){
+    parent::beforeSave($options);
+  
+    $this->saveImage();
+    return true;
+  }
 
 }
