@@ -1,3 +1,9 @@
+#0.3
+- Fixed an image upload bug on the user settings
+- Created a mini CMS for the website
+- Image upload possible
+- Decent HTML5 setup for indexes
+
 #0.2
 
 - Displayed all the user discussions
