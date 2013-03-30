@@ -7,7 +7,7 @@
 	</title>
 	<?php
 
-		echo $this->Html->css('bootstrap');
+		echo $this->Html->css('boilerplate');
 		echo $this->Html->meta('icon');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
