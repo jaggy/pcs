@@ -12,3 +12,4 @@ data/
 
 #symlinks
 webroot/profile
+webroot/posts
