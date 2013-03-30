@@ -1,20 +1,57 @@
 <h2><?php echo $committee['Committee']['name'] ?></h2>
-<?php if($pending && !$pending['CommitteeUser']['approved']): ?>
+<?php if($pending && !$pending['CommitteeUser'][0]['approved']): ?>
   <em>Your membership is yet to be approved</em>
 <?php endif;?>
 
-<div class="head">
-  <?php if(array_filter($committee['User'])): ?>
+<div class="management">
+  <div class="chairman">
+    <?php if(array_filter($committee['Chairman'])): ?>
+        <h3>
+          Chairman
+        </h3>
+        <?php 
+          echo $this->Html->link(
+            $this->Html->image("/profile/{$committee['Chairman']['image']}", array('alt' => $committee['Chairman']['username'])),
+            array(
+              'controller' => 'users',
+              'action' => 'profile', 
+              $committee['Chairman']['username']
+            ),
+            array(
+              'escape' => false
+            )
+          ); 
+        ?>
+        <strong>
+          <?php 
+            echo $this->Html->link(
+              "{$committee['Chairman']['first_name']} {$committee['Chairman']['middle_name']} {$committee['Chairman']['last_name']}",
+              array(
+                'controller' => 'users',
+                'action' => 'profile', 
+                $committee['Chairman']['username']
+              )
+            ); 
+          ?>
+        </strong>
+        <p><?php echo $committee['Chairman']['description'] ?></p>
+    <?php else: ?>
+      <h3><em>There's no committee head yet.</em></h3>
+    <?php endif; ?>
+  </div>
+
+  <?php if(array_filter($committee['CoChairman'])): ?>
+  <div class="co-chairman">
       <h3>
-        Committee Head
+        Co-Chairman
       </h3>
       <?php 
         echo $this->Html->link(
-          $this->Html->image("/profile/{$committee['User']['image']}", array('alt' => $committee['User']['username'])),
+          $this->Html->image("/profile/{$committee['CoChairman']['image']}", array('alt' => $committee['CoChairman']['username'])),
           array(
             'controller' => 'users',
             'action' => 'profile', 
-            $committee['User']['username']
+            $committee['CoChairman']['username']
           ),
           array(
             'escape' => false
@@ -24,18 +61,17 @@
       <strong>
         <?php 
           echo $this->Html->link(
-            "{$committee['User']['first_name']} {$committee['User']['middle_name']} {$committee['User']['last_name']}",
+            "{$committee['CoChairman']['first_name']} {$committee['CoChairman']['middle_name']} {$committee['CoChairman']['last_name']}",
             array(
               'controller' => 'users',
               'action' => 'profile', 
-              $committee['User']['username']
+              $committee['CoChairman']['username']
             )
           ); 
         ?>
       </strong>
-      <p><?php echo $committee['User']['description'] ?></p>
-  <?php else: ?>
-    <h3><em>There's no committee head yet.</em></h3>
+      <p><?php echo $committee['CoChairman']['description'] ?></p>
+  </div>
   <?php endif; ?>
 </div>
 

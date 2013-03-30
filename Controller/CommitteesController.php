@@ -90,12 +90,19 @@ class CommitteesController extends AppController{
 
     $name = ucwords(str_replace('_', ' ', $name));
 
-    $pending = $this->Committee->CommitteeUser->find('first', array(
+    $pending = $this->Committee->find('first', array(
       'conditions' => array(
-        'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
+        'Committee.name' => $name
       ),
-      'contain' => false
+      'contain' => array(
+        'CommitteeUser' => array(
+          'conditions' => array(
+            'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
+          )
+        )
+      )
     ));
+    
 
     $committee = $this->Committee->find('first', array(
       'conditions' => array(
@@ -112,12 +119,17 @@ class CommitteesController extends AppController{
           ),
           'limit' => 10
         ), 
-        'User' => array(
+        'Chairman' => array(
+          'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
+        ),
+        'CoChairman' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
         ),
         'Discussion'
       )
     ));
+
+
 
     $this->set(compact('committee', 'pending'));
     $this->set('_serialize', array('committee'));
@@ -129,21 +141,25 @@ class CommitteesController extends AppController{
    */
   public function join(){
 
+    $this->Committee->Behaviors->attach('Containable');
+
     if($this->Session->read('Auth.User.Role.name') === 'Member' && $this->Session->read('Auth.User.committee_user_count') > 0){
       $this->Committee->CommitteeUser->Behaviors->attach('Containable');
 
-    $committee = $this->Committee->CommitteeUser->find('first', array(
+      $committee = $this->Committee->CommitteeUser->find('first', array(
         'conditions' => array(
           'CommitteeUser.user_id' => $this->Session->read('Auth.User.id')
         ),
         'contain' => 'Committee'
       ));
-      $this->redirect(array('action' => 'view', strtolower($committee['Committee']['name'])));
+
+      $this->redirect(array('action' => 'view', strtolower(str_replace(' ', '_', $committee['Committee']['name']))));
     }
 
-    if($this->request->is('post')){
 
+    if($this->request->is('post')){
       $this->request->data['CommitteeUser']['user_id'] = $this->Session->read('Auth.User.id');
+
       if($this->Committee->CommitteeUser->save($this->request->data)){
         $this->Committee->CommitteeUser->User->Behaviors->attach('Containable');
 
@@ -151,8 +167,9 @@ class CommitteesController extends AppController{
           'conditions' => array(
             'User.id' => $this->Session->read('Auth.User.id')
           ),
-          'contain' => array('Role', 'Committee')
+          'contain' => array('Role', 'Chairman')
         ));
+
         $session = $user['User'];
 
         unset($user['User']);
@@ -167,7 +184,7 @@ class CommitteesController extends AppController{
 
     }
 
-    $this->set('committees', $this->Committee->find('list'));
+    $this->set('committees', $this->Committee->available());
   }  
 
   /**

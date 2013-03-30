@@ -153,15 +153,25 @@ class User extends AppModel {
       'className' => 'Reply',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Announcement' => array(
+      'className' => 'Announcement',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 
   public $hasOne = array(
-    'Committee' => array(
+    'Chairman' => array(
       'className' => 'Committee',
-      'foreignKey' => 'user_id',
+      'foreignKey' => 'chairman_id',
       'dependent' => false
-    )
+    ),
+    'CoChairrman' => array(
+      'className' => 'Committee',
+      'foreignKey' => 'co-chairman_id',
+      'dependent' => false
+    ),
   );
 
   public $belongsTo = array(
