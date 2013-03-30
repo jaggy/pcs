@@ -1,5 +1,7 @@
 <h1><?php echo $announcement['Announcement']['title'] ?></h1>
 
+<?php echo $this->Html->image("/posts/{$announcement['Announcement']['image']}") ?>
+
 <?php echo Markdown($announcement['Announcement']['content']); ?>
 
 <p>

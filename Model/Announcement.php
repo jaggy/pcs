@@ -37,15 +37,20 @@ class Announcement extends AppModel {
 
     if(!empty($this->data['Announcement']['image']['name'])){
 
-      $basename = $this->data['Announcement']['image']['name'];
-      $tmp = $this->data['Announcement']['image']['tmp_name'];
+      $upload = $this->data['Announcement']['image'];
+
+      if($this->id) $this->read();
+
+      $basename = $upload['name'];
+
+      $tmp = $upload['tmp_name'];
       $extension = pathinfo($basename, PATHINFO_EXTENSION);
 
-      $filename = String::uuid() . '.' . $extension;
+      $filename = ($this->id) ? reset(explode('.', $this->data['Announcement']['image'])) . ".{$extension}" : String::uuid() . ".{$extension}";
       $destination = Configure::read('Data.post_images') . $filename;
 
       $this->data['Announcement']['image'] = $filename;
-
+      
       if(!move_uploaded_file($tmp, $destination)){
         return false;
       }
