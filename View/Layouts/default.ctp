@@ -16,16 +16,19 @@
 <body>
 	<div id="container">
 
-		<div class="default-logo">
-			<h1 class="hidden"><a href="/">Philippine College of Surgeons - Metro Manila Chapter</a></h1>
-		</div>
-
+			<div class="default-logo">
+				<a href="/">
+					<h1 class="hidden">Philippine College of Surgeons - Metro Manila Chapter</h1>
+				</a>
+			</div>
 		<div class="navigation">
-			<ul>
-				<li><a href="#">About</a></li>
+			<ul class="left">
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About Us</a></li>
 				<li><a href="#">Events</a></li>
+				<li><a href="#">Committees</a></li>
 				<li><a href="#">Contact Us</a></li>
-				<li><a href="#">Option</a></li>
+				<li><a href="#">Join</a></li>
 			</ul>
 		</div>
 
