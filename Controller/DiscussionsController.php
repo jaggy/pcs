@@ -4,6 +4,30 @@ App::uses('AppController', 'Controller');
 class DiscussionsController extends AppController{
   
 
+  public function reply($discussion_id = null){
+
+    $this->Discussion->id = $discussion_id;
+    if(!$this->Discussion->exists()){
+      $this->redirect(array('action' => 'view', $discussion_id));
+    }
+
+    if($this->request->is('post')){
+
+      $this->request->data['Post']['discussion_id'] = $discussion_id;
+      $this->request->data['Post']['user_id'] = $this->Session->read('Auth.User.id');
+
+
+      if($this->Discussion->Post->save($this->request->data)){
+        $this->Session->setFlash(__('Successfully replied.'));
+        $this->redirect(array('action' => 'view', $discussion_id));
+      }else{
+        $this->Session->setFlash(__('Uh-oh! Something went wrong'));
+      }
+
+    }
+
+  }
+
   /**
    * View the discussion
    * @param  int $id 

@@ -10,7 +10,7 @@
   </div>
 
   <div class="post">
-    <p><?php echo $discussion['Discussion']['post'] ?></p>
+    <p><?php echo nl2br($discussion['Discussion']['post']) ?></p>
   </div>
 </div>
 
