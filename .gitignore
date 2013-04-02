@@ -13,3 +13,7 @@ data/
 #symlinks
 webroot/profile
 webroot/posts
+
+.sass-cache/
+theme.css
+default-*.png

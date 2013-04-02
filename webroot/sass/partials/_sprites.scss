@@ -1,0 +1,4 @@
+$default-sprite-dimensions: true;
+@import "sprites/default/*.png";
+@include all-default-sprites;
+
