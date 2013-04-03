@@ -10,7 +10,7 @@
   </div>
 
   <div class="post">
-    <p><?php echo $discussion['Discussion']['post'] ?></p>
+    <?php echo $this->Editor->nl2p($discussion['Discussion']['post']) ?>
   </div>
 </div>
 
@@ -27,12 +27,12 @@
         <em>Member since: <?php echo date('F Y', strtotime($post['User']['created'])) ?></em>
       </div>
 
-      <p><?php echo $post['Post']['content'] ?></p>
+      <?php echo $this->Editor->nl2p($post['Post']['content']) ?>
       Posted on: <?php echo date('F d. Y', strtotime($post['Post']['created'])) ?>
 
       <div class="actions">
         <a href="#">Report Post</a>
-        <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
+        <!-- <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a> -->
       </div>
 
       <div class="replies">
