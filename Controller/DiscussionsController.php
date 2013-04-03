@@ -3,6 +3,7 @@
 App::uses('AppController', 'Controller');
 class DiscussionsController extends AppController{
   
+  public $helpers = array('Editor');
 
   public function reply($discussion_id = null){
 
