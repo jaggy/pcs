@@ -32,7 +32,7 @@
 
       <div class="actions">
         <a href="#">Report Post</a>
-        <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
+        <!-- <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a> -->
       </div>
 
       <div class="replies">

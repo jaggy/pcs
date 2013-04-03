@@ -26,6 +26,8 @@ class DiscussionsController extends AppController{
 
     }
 
+    $this->set('discussion', $this->Discussion->read());
+
   }
 
   /**
