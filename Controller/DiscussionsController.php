@@ -5,6 +5,33 @@ class DiscussionsController extends AppController{
   
   public $helpers = array('Editor');
 
+  public function index(){
+    $this->Discussion->Behaviors->attach('Containable');
+    $this->Discussion->Committee->CommitteeUser->Behaviors->attach('Containable');
+
+    $committee = $this->Discussion->Committee->CommitteeUser->find('first', array(
+      'conditions' => array(
+        'user_id' => $this->Session->read('Auth.User.id')
+      ),
+      'contain'=> false
+    ));
+
+    $discussions = $this->Discussion->find('all', array(
+      'conditions' => array(
+        'committee_id' => $committee['CommitteeUser']['committee_id']
+      ),
+      'contain' => false
+    ));
+
+    $this->set(compact('discussions'));
+  }
+
+
+  /**
+   * Reply to a discussion
+   * @param  int $discussion_id 
+   * 
+   */
   public function reply($discussion_id = null){
 
     $this->Discussion->id = $discussion_id;
