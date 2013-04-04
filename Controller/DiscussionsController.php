@@ -13,15 +13,27 @@ class DiscussionsController extends AppController{
       'conditions' => array(
         'user_id' => $this->Session->read('Auth.User.id')
       ),
-      'contain'=> false
+      'contain'=> array(
+        'Committee' => array(
+          'Discussion' => array(
+            'fields' => array('title', 'id', 'post_count', 'modified'),
+            'User' => array(
+              'fields' => array('username')
+            ),
+            'Post' => array(
+              'fields' => array('id'),
+              'order' => array('created' => 'DESC'),
+              'limit' => 1,
+              'User' => array(
+                'fields' => array('username')
+              )
+            )
+          )
+        )
+      )
     ));
 
-    $discussions = $this->Discussion->find('all', array(
-      'conditions' => array(
-        'committee_id' => $committee['CommitteeUser']['committee_id']
-      ),
-      'contain' => false
-    ));
+    $discussions = $committee['Committee']['Discussion'];
 
     $this->set(compact('discussions'));
   }
@@ -122,9 +134,10 @@ class DiscussionsController extends AppController{
       ));
 
       $this->request->data['Discussion']['user_id'] = $this->Session->read('Auth.User.id');
+      $this->request->data['Post']['user_id'] = $this->Session->read('Auth.User.id');
       $this->request->data['Discussion']['committee_id'] = $committee['Committee']['id'];
 
-      if($this->Discussion->save($this->request->data)){
+      if($this->Discussion->Post->saveAll($this->request->data)){
         $this->Session->setFlash(__('Discussion created'));
         $this->redirect(array(
           'controller' => 'committees',
