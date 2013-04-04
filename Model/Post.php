@@ -14,11 +14,13 @@ class Post extends AppModel {
   public $belongsTo = array(
     'Discussion' => array(
       'className' => 'Discussion',
-      'foreignKey' => 'discussion_id'
+      'foreignKey' => 'discussion_id',
+      'counterCache' => true
     ),
     'User' => array(
       'className' => 'User',
-      'foreignKey' => 'user_id'
+      'foreignKey' => 'user_id',
+      'counterCache' => true
     )
   );
 
