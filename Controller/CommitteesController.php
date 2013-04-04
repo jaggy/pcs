@@ -58,7 +58,7 @@ class CommitteesController extends AppController{
 
     $committees = array();
     $results = $this->Committee->find('all', array(
-      'fields' => array('name', 'description', 'user_id'),
+      'fields' => array('name', 'description', 'chairman_id'),
       'contain' => array(
         'CommitteeUser' => array(
           'conditions' => array(

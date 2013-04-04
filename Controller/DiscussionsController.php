@@ -16,13 +16,14 @@ class DiscussionsController extends AppController{
       'contain'=> array(
         'Committee' => array(
           'Discussion' => array(
-            'fields' => array('title', 'id', 'post_count', 'modified'),
+            'order' => array('Discussion.last_updated' => 'DESC'),
+            'fields' => array('title', 'id', 'post_count', 'view_count', 'modified'),
             'User' => array(
               'fields' => array('username')
             ),
             'Post' => array(
               'fields' => array('id'),
-              'order' => array('created' => 'DESC'),
+              'order' => array('modified' => 'DESC'),
               'limit' => 1,
               'User' => array(
                 'fields' => array('username')
@@ -46,6 +47,8 @@ class DiscussionsController extends AppController{
    */
   public function reply($discussion_id = null){
 
+    $this->Discussion->Behaviors->attach('Containable');
+
     $this->Discussion->id = $discussion_id;
     if(!$this->Discussion->exists()){
       $this->redirect(array('action' => 'view', $discussion_id));
@@ -58,15 +61,29 @@ class DiscussionsController extends AppController{
 
 
       if($this->Discussion->Post->save($this->request->data)){
+        $this->Discussion->id = $discussion_id;
+        $this->Discussion->saveField('last_updated', date('Y-m-d H:i:s'));
         $this->Session->setFlash(__('Successfully replied.'));
         $this->redirect(array('action' => 'view', $discussion_id));
+
       }else{
         $this->Session->setFlash(__('Uh-oh! Something went wrong'));
       }
 
     }
 
-    $this->set('discussion', $this->Discussion->read());
+    $this->Discussion->contain(array(
+      'Post' => array(
+        'order' => array('created' => 'ASC'),
+        'fields' => array('content'),
+        'limit' => 1
+      )
+    ));
+    $discussion = $this->Discussion->read();
+    $initial_post = array_shift(reset($discussion['Post']));
+
+
+    $this->set(compact('discussion', 'initial_post'));
 
   }
 
@@ -76,21 +93,21 @@ class DiscussionsController extends AppController{
    */
   public function view($id = ''){
 
+    $this->Discussion->Behaviors->attach('Containable');
     $this->Discussion->Post->Behaviors->attach('Containable');
 
-    $discussion = $this->Discussion->find('first', array(
-      'conditions' => array('Discussion.id' => $id),
-      'contain' => array(
-        'User' => array(
-          'fields' => array('username', 'first_name', 'last_name')
-        )
-      )
-    ));
+    $this->Discussion->id = $id;
 
-    if(!$discussion){
+    if(!$this->Discussion->exists()){
       $this->redirect('/');
     }
-  
+
+    $this->Discussion->contain(array(
+      'User'
+    ));
+    $discussion = $this->Discussion->read();
+    $this->Discussion->saveField('view_count', $discussion['Discussion']['view_count']+ 1);
+
     $this->paginate = array(
       'limit' => 5,
       'conditions' => array(
@@ -136,6 +153,7 @@ class DiscussionsController extends AppController{
       $this->request->data['Discussion']['user_id'] = $this->Session->read('Auth.User.id');
       $this->request->data['Post']['user_id'] = $this->Session->read('Auth.User.id');
       $this->request->data['Discussion']['committee_id'] = $committee['Committee']['id'];
+      $this->request->data['Discussion']['last_updated'] = date('Y-m-d H:i:s');
 
       if($this->Discussion->Post->saveAll($this->request->data)){
         $this->Session->setFlash(__('Discussion created'));

@@ -6,7 +6,8 @@ class Discussion extends AppModel {
   public $belongsTo = array(
     'Committee' => array(
       'className' => 'Committee',
-      'foreignKey' => 'committee_id'
+      'foreignKey' => 'committee_id',
+      'counterCache' => true
     ),
     'User' => array(
       'className' => 'User',

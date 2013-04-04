@@ -9,9 +9,6 @@
     )) ?>
   </div>
 
-  <div class="post">
-    <?php echo $this->Editor->nl2p($discussion['Discussion']['post']) ?>
-  </div>
 </div>
 
 <div class="actions">
@@ -32,7 +29,7 @@
 
       <div class="actions">
         <a href="#">Report Post</a>
-        <!-- <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a> -->
+        <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
       </div>
 
       <div class="replies">
