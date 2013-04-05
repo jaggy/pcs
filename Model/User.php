@@ -158,6 +158,11 @@ class User extends AppModel {
       'className' => 'Announcement',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Event' => array(
+      'className' => 'Event',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 
