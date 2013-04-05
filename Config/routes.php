@@ -1,5 +1,6 @@
 <?php
 
+  CakePlugin::routes();
 	Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
@@ -22,11 +23,11 @@
    * Dscussion
    */
   Router::connect('/discussion/*', array('controller' => 'discussions', 'action' => 'create'));
+  Router::connect('/discussions/*', array('controller' => 'discussions', 'action' => 'index'));
 
 
   // Accept all .json urls
   Router::parseExtensions('json');  
-	CakePlugin::routes();
 
   // CakePHP default routes
 	require CAKE . 'Config' . DS . 'routes.php';
