@@ -13,28 +13,28 @@ class DiscussionsController extends AppController{
       'conditions' => array(
         'user_id' => $this->Session->read('Auth.User.id')
       ),
-      'contain'=> array(
-        'Committee' => array(
-          'Discussion' => array(
-            'order' => array('Discussion.last_updated' => 'DESC'),
-            'fields' => array('title', 'id', 'post_count', 'view_count', 'modified'),
-            'User' => array(
-              'fields' => array('username')
-            ),
-            'Post' => array(
-              'fields' => array('id'),
-              'order' => array('modified' => 'DESC'),
-              'limit' => 1,
-              'User' => array(
-                'fields' => array('username')
-              )
-            )
+    ));
+
+    $this->paginate = array(
+      'limit' => 5,
+      'order' => array('Discussion.last_updated' => 'DESC'),
+      'fields' => array('title', 'id', 'post_count', 'view_count', 'last_updated'),
+      'contain' => array(
+        'User' => array(
+          'fields' => array('username')
+        ),
+        'Post' => array(
+          'fields' => array('id'),
+          'order' => array('modified' => 'DESC'),
+          'limit' => 1,
+          'User' => array(
+            'fields' => array('username')
           )
         )
       )
-    ));
+    );
 
-    $discussions = $committee['Committee']['Discussion'];
+    $discussions = $this->paginate('Discussion');
 
     $this->set(compact('discussions'));
   }
