@@ -18,7 +18,7 @@ class DiscussionsController extends AppController{
     $this->paginate = array(
       'limit' => 5,
       'order' => array('Discussion.last_updated' => 'DESC'),
-      'fields' => array('title', 'id', 'post_count', 'view_count', 'last_updated'),
+      'fields' => array('title', 'id', 'post_count', 'view_count', 'last_updated', 'created'),
       'contain' => array(
         'User' => array(
           'fields' => array('username')

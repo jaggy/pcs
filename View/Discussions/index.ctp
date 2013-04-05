@@ -1,7 +1,8 @@
 <ul>
   <li>Title</li>
   <li>Created by</li>
-  <li>Last Update</li>
+  <li><?php echo $this->paginator->sort('last_updated') ?></li>
+  <li><?php echo $this->paginator->sort('created') ?></li>
   <li>Last Reply</li>
   <li>Stats</li>
 </ul>
@@ -11,6 +12,7 @@
     <li><?php echo $this->Html->link($discussion['Discussion']['title'], array('action' => 'view', $discussion['Discussion']['id'])) ?></li>
     <li><?php echo $this->Html->link($discussion['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['User']['username'])) ?></li>
     <li><?php echo date('d.m.Y @ g:iA', strtotime($discussion['Discussion']['last_updated'])); ?></li>
+    <li><?php echo date('d.m.Y @ g:iA', strtotime($discussion['Discussion']['created'])); ?></li>
     <li><?php echo $this->Html->link($discussion['Post'][0]['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['Post'][0]['User']['username'])) ?></li>
     <li>
       <?php echo "Replies: " . ($discussion['Discussion']['post_count'] - 1) ?>
