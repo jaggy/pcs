@@ -3,7 +3,16 @@
 App::uses('AppController', 'Controller');
 class EventsController extends AppController{
   
-  public function index(){ }
+  public function index(){
+    $this->Event->Behaviors->attach('Containable');
+    $this->paginate = array(
+      'contain' => false,
+      'limit' => 10
+    );
+
+    $events = $this->paginate();
+    $this->set(compact('events'));
+  }
 
   public function view($id = null){
 
