@@ -16,19 +16,7 @@ class EventsController extends AppController{
     }
 
     $committees = $this->Event->Committee->find('list');
-    $current_committee = $this->Event->Committee->CommitteeUser->find('first', array(
-      'conditions' => array(
-        'user_id' => $this->Session->read('Auth.User.id')
-      ),
-      'contain' => array(
-        'Committee' => array(
-          'fields' => array('name')
-        )
-      )
-    ));
-
-    $current_committee = $current_committee['Committee']['name'];
-    $this->set(compact('committees', 'current_committee'));
+    $this->set(compact('committees'));
   }
 
 
