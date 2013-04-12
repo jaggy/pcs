@@ -27,4 +27,12 @@ class Event extends AppModel {
       ),
     );
 
+    public $hasMany = array(
+      'Rsvp' => array(
+        'className' => 'Rsvp',
+        'foreignKey' => 'event_id',
+        'dependent' => false
+      )
+    );
+
 }

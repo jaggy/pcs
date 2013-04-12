@@ -163,6 +163,11 @@ class User extends AppModel {
       'className' => 'Event',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Rsvp' => array(
+      'className' => 'Rsvp',
+      'foreignKey' => 'user_id',
+      'dependent' => false
     )
   );
 
