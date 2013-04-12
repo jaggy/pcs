@@ -8,7 +8,7 @@ class EventsController extends AppController{
     $this->paginate = array(
       'contain' => array(
         'Rsvp' => array(
-          'conditions' => array('user_id' => $this->Session->read('Auth.User.id'))
+          'conditions' => array('user_id' => $this->Session->read('Auth.User.id')),
         )
       ),
       'limit' => 10
@@ -20,11 +20,14 @@ class EventsController extends AppController{
 
   public function view($id = null){
 
+    $this->Event->Behaviors->attach('Containable');
+
     $this->Event->id = $id;
     if(!$this->Event->exists()){
       $this->redirect(array('action' => 'index'));
     }
 
+    $this->Event->contain(array('Rsvp' => array('User')));
     $this->set('event', $this->Event->read());
   }
 
