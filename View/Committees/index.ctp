@@ -1,16 +1,29 @@
-<?php echo $this->Html->link('Create a new committee', array('action' => 'add')); ?> 
-<ul>
+<h1>Committees</h1>
+
+
+<div class="create" style="text-align: right; margin-bottom: 10px">
+  <?php echo $this->Html->link('Create Committee', array('action' => 'add'), array('class' => 'btn btn-primary right')); ?> 
+  
+</div>  
+
+<table class="table table-hover">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Members</th>
+    <th>Discussions</th>
+  </tr>
+
   <?php foreach($committees as $committee): ?>
-    <li>
-      <a href="/committee/<?= str_replace(' ', '_', strtolower($committee['Committee']['name']))?>">
-        <strong><?php echo $committee['Committee']['name'] ?></strong>
-        <span>
-          <time><?php echo date('jS M, Y', strtotime($committee['Committee']['created'])); ?></time>
-        </span>
-        <p>
-          <?php echo $committee['Committee']['description']; ?>
-        </p>
-      </a>
-    </li>
+    <tr>
+      <td><?php echo $committee['Committee']['id'] ?></td>
+      <td><?php echo $this->Html->link($committee['Committee']['name'], array('action' => 'view', strtolower(str_replace(' ', '_', $committee['Committee']['name'])))) ?></td>
+      <td><?php echo $committee['Committee']['committee_user_count'] ?></td>
+      <td><?php echo $committee['Committee']['discussion_count'] ?></td>
+      <td>
+      </td>
+    </tr>
   <?php endforeach; ?>
-</ul>
+
+</table>
+

@@ -90,7 +90,7 @@ class UsersController extends AppController{
   public function index(){
     $this->User->Behaviors->attach('Containable');
     $users = $this->User->find('all', array(
-      'contain' => 'Role'
+      'contain' => array('Role')
     ));
 
     $this->set(compact('users'));

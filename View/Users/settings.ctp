@@ -7,7 +7,7 @@
 
 <fieldset>
   <fieldset>
-    <legend>Full Name</legend>
+    <legend><?php echo sprintf("%s %s %s", $user_information['first_name'], $user_information['middle_name'], $user_information['last_name']) ?></legend>
     <p>
       <?php echo $this->Form->input('first_name', array('placeholder' => 'First Name')); ?>
       <?php echo $this->Form->input('middle_name', array('placeholder' => 'Middle Name')); ?>
@@ -38,5 +38,5 @@
   </p>
 </fieldset>
 
-<?php echo $this->Form->submit('Update', array('div' => false)); ?>
-<?php echo $this->Html->link('Delete', array('action' => 'delete')); ?>
+<?php echo $this->Form->submit('Update', array('div' => false, 'class' => 'btn btn-primary')); ?>
+<?php echo $this->Html->link('Delete', array('action' => 'delete'), array('class' => 'btn btn-danger')); ?>

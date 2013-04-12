@@ -1,11 +1,13 @@
-<ul>
+<table class="table table-striped table-hover">
+  <tr>
+    <th>Name</th>
+    <th>E-mail</th>
+  </tr>
   <?php foreach($users as $user): ?>
-    <li>
-      <a href="users/view/<?php echo $user['User']['id'] ?>">
-        <strong><?php echo $user['User']['first_name'] ?></strong>
-        <span>Username: <?php echo $user['User']['username']; ?></span>
-        <em class="highlight"><?php echo $user['Role']['name'] ?></em>
-      </a>
-    </li>
+    <tr>
+      <td><?php echo $this->Html->link(sprintf("%s %s %s", $user['User']['first_name'], $user['User']['middle_name'], $user['User']['last_name']), array('controller' =>'users', 'acton' => 'view')) ?></td>
+      <td><?php echo $user['User']['email'] ?></td>
+    </tr>
   <?php endforeach; ?>
-</ul>
+
+</table>
