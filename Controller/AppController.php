@@ -56,6 +56,8 @@ class AppController extends Controller {
       $this->viewClass = 'Json';
     }
 
+    $user_information = $this->Session->read('Auth.User');
+    $this->set(compact('user_information'));
   }
 
   /**
