@@ -10,7 +10,7 @@
   <label for="EventStartTime">Start Time</label><?php echo $this->Form->time('start_time'); ?>
   <label for="EventEndTime">End Time</label> <?php echo $this->Form->time('end_time'); ?>
 </p>
-<p><?php echo $this->Form->input('is_public', array('label' => 'All Committees', 'class' => 'js-toggle committee')) ?></p>
-<p class="js-hide committee"><?php echo $this->Form->input('committee_id', array('empty' => '-- Select Committee --', 'div' => false)) ?></p>
+<p><?php echo $this->Form->input('is_public', array('label' => 'All Committees', 'class' => 'js-toggle committee', 'checked' => 'checked')) ?></p>
+<p class="js-hide committee hidden"><?php echo $this->Form->input('committee_id', array('empty' => '-- Select Committee --', 'div' => false)) ?></p>
 
 <?php echo $this->Form->end('Create Event') ?>
