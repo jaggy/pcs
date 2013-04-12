@@ -125,7 +125,11 @@ class CommitteesController extends AppController{
         'CoChairman' => array(
           'fields' => array('first_name', 'middle_name', 'last_name', 'username', 'image', 'description')
         ),
-        'Discussion'
+        'Discussion' => array(
+          'order' => array(
+            'created' => 'DESC'
+          )
+        )
       )
     ));
 

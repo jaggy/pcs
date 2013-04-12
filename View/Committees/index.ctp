@@ -1,5 +1,7 @@
+<div class="page-header">
 <h1>Committees</h1>
-
+  
+</div>
 
 <div class="create" style="text-align: right; margin-bottom: 10px">
   <?php echo $this->Html->link('Create Committee', array('action' => 'add'), array('class' => 'btn btn-primary right')); ?> 

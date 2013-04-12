@@ -1,1 +1,17 @@
- 
+.profile-picture{
+
+  height: 60px;
+}
+
+.box{
+  display: inline-block;
+}
+
+.post > .user {
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
+
+.post > .content{
+  margin-left: 15px;
+}

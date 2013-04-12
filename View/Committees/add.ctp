@@ -2,19 +2,15 @@
   echo $this->Form->create(array(
     'inputDefaults' => array(
       'div' => false,
-      'label' => false
+      'class' => 'span12' 
     )
   ));
 ?>
 
-  <dl>
-    <dt>Name</dt>
-    <dl><?php echo $this->Form->input('name'); ?></dl
-    <dt>Description</dt>
-    <dl><?php echo $this->Form->input('description'); ?></dl>
-  </dl>
+   <?php echo $this->Form->input('name'); ?>  
+   <?php echo $this->Form->input('description'); ?>
 
 <?php 
-  echo $this->Form->end('Create Committee');
+  echo $this->Form->submit('Create Committee', array('class' => 'btn btn-primary'));
 ?>
 

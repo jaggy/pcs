@@ -23,7 +23,6 @@
    * Dscussion
    */
   Router::connect('/discussion/*', array('controller' => 'discussions', 'action' => 'create'));
-  Router::connect('/discussions/*', array('controller' => 'discussions', 'action' => 'index'));
 
 
   // Accept all .json urls

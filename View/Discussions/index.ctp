@@ -1,27 +1,28 @@
-<ul>
-  <li>Title</li>
-  <li>Created by</li>
-  <li><?php echo $this->paginator->sort('last_updated') ?></li>
-  <li><?php echo $this->paginator->sort('created') ?></li>
-  <li>Last Reply</li>
-  <li>Stats</li>
-</ul>
-<?php foreach($discussions as $discussion): ?>
-<div class="discussion">
-  <ul>
-    <li><?php echo $this->Html->link($discussion['Discussion']['title'], array('action' => 'view', $discussion['Discussion']['id'])) ?></li>
-    <li><?php echo $this->Html->link($discussion['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['User']['username'])) ?></li>
-    <li><?php echo date('d.m.Y @ g:iA', strtotime($discussion['Discussion']['last_updated'])); ?></li>
-    <li><?php echo date('d.m.Y @ g:iA', strtotime($discussion['Discussion']['created'])); ?></li>
-    <li><?php echo $this->Html->link($discussion['Post'][0]['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['Post'][0]['User']['username'])) ?></li>
-    <li>
+<table class="table table-hover">
+  <tr>
+    <th>Title</th>
+    <th>Created by</th>
+    <th>Last Updated</th>
+    <th>Last Reply</th>
+    <th>Stats</th>
+  </tr>
+
+  <?php foreach($discussions as $discussion): ?>
+  <tr>
+    <td><?php echo $this->Html->link($discussion['Discussion']['title'], array('action' => 'view', $discussion['Discussion']['id'])) ?></td>
+    <td><?php echo $this->Html->link($discussion['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['User']['username'])) ?></td>
+    <td><?php echo date('F d, Y @ g:iA', strtotime($discussion['Discussion']['last_updated'])); ?></td>
+    <td><?php echo $this->Html->link($discussion['Post'][0]['User']['username'], array('controller' => 'users', 'action' => 'profile', $discussion['Post'][0]['User']['username'])) ?></td>
+    <td>
       <?php echo "Replies: " . ($discussion['Discussion']['post_count'] - 1) ?>
       <br />
       <?php echo "Views: {$discussion['Discussion']['view_count']}" ?>
-    </li>
-  </ul>
-</div>
-<?php endforeach; ?>
+    </td>
+  </tr>
+  <?php endforeach; ?>
+</table>
+
+
 
 <?php if($this->paginator->numbers()): ?>
 
