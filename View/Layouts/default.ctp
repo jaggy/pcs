@@ -22,6 +22,7 @@
 		<div class="navbar-inner">
 				<ul class="nav">
 					<li class="active"><a href="#">Home</a></li>
+					<li><a href="/announcements">Announcements</a></li>
 					<li><a href="/events">Events</a></li>
 					<?php  if(isset($user_information)):  ?>
 					<li><a href="/committee/<?php echo strtolower(str_replace(' ', '_', $user_information['Committee']['name'])) ?>"><?php echo $user_information['Committee']['name'] ?></a></li>

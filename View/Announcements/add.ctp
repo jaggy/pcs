@@ -1,5 +1,4 @@
-<?php echo $this->Form->create('Announcement', array('inputDefaults' => array('div' => false), 'type' => 'file')); ?>
-<?php echo $this->Form->submit('Create') ?>
+<?php echo $this->Form->create('Announcement', array('inputDefaults' => array('div' => false, 'class' => 'span12'), 'type' => 'file')); ?>
 
 <div>
   <?php echo $this->Form->input('title', array('label' => false, 'autocomplete' => false, 'placeholder' => 'Title')) ?>
@@ -10,7 +9,6 @@
 
 <fieldset>
   <p><?php echo $this->Form->input('description')  ?></p>
-  <p><?php echo $this->Form->input('status', array('checked' => 'checked'))  ?></p>
-  <p><?php echo $this->Form->input('image', array('type' => 'file')) ?></p>
-  <p><?php echo $this->Form->input('allow_comments')  ?></p>
+  <p><?php echo $this->Form->input('request_file')  ?></p>
 </fieldset>
+<?php echo $this->Form->submit('Create', array('class' => 'btn btn-primary')) ?>

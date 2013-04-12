@@ -1,8 +1,13 @@
+<div class="page-header">
 <h1><?php echo $announcement['Announcement']['title'] ?></h1>
+</div>
 
-<?php echo $this->Html->image("/posts/{$announcement['Announcement']['image']}") ?>
+<?php // if($announcement['Announcement']['reuqest_file']) echo $this->From->input('file', array('type' => 'file')) ?>
 
-<?php echo Markdown($announcement['Announcement']['content']); ?>
+<div class="well">
+  <?php echo Markdown($announcement['Announcement']['content']); ?>
+</div>
+
 
 <p>
   <em>Posted <?php echo date('F d, Y', strtotime($announcement['Announcement']['created'])) ?></em>
