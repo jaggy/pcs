@@ -26,6 +26,14 @@ class Announcement extends AppModel {
     )
   );
 
+  public $hasMany = array(
+    'Attachment' => array(
+      'className' => 'Attachment',
+      'foreignKey' => 'announcement_id',
+      'dependent' => false
+    )
+  );
+
   public $belongsTo = array(
     'User' => array(
       'className' => 'User',

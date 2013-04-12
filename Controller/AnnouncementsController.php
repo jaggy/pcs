@@ -28,7 +28,39 @@ class AnnouncementsController extends AppController{
         $this->redirect(array('action' => 'index'));
       }
 
-      $this->set('announcement', $this->Announcement->read());
+      $submitted = $this->Announcement->Attachment->find('first', array(
+        'conditions' => array(
+          'announcement_id' => $this->Announcement->id,
+          'user_id' => $this->Session->read('Auth.User.id')
+        )
+      ));
+
+      if($this->request->is('post')){
+
+        $basename = $this->data['Attachment']['file']['name'];
+        $extension = pathinfo($basename, PATHINFO_EXTENSION);
+        $filename = $this->Session->read('Auth.User.username') . ".{$extension}";
+        $destination = Configure::read('Data.attachments') . $this->Announcement->id . '/' . $filename;
+        $tmp = $this->request->data['Attachment']['file']['tmp_name'];
+
+        $this->request->data['Attachment']['name'] = $filename;
+        $this->request->data['Attachment']['mimetype'] = $this->request->data['Attachment']['file']['type'];
+        $this->request->data['Attachment']['size'] = $this->request->data['Attachment']['file']['size'];
+        $this->request->data['Attachment']['path'] = Configure::read('Data.attachments') . $this->Announcement->id . "/.{$filename}";
+        $this->request->data['Attachment']['announcement_id'] = $this->Announcement->id;
+        $this->request->data['Attachment']['user_id'] = $this->Session->read('Auth.User.id');
+        unset($this->request->data['Attachment']['file']);
+
+        if($this->Announcement->Attachment->save($this->request->data)){
+          move_uploaded_file($tmp, $destination);
+          $this->Session->setFlash(__('Uploaded successfully!'));
+          $this->redirect(array('action' => 'view', $this->Announcement->id));
+        }
+        
+      }
+
+      $announcement = $this->Announcement->read();
+      $this->set(compact('announcement', 'submitted'));
     }
     
     public function add(){
@@ -37,7 +69,14 @@ class AnnouncementsController extends AppController{
 
         $this->request->data['Announcement']['user_id'] = $this->Session->read('Auth.User.id');
 
+
         if($this->Announcement->save($this->request->data)){
+          if($this->request->data['Announcement']['request_file']){
+            $folder = Configure::read('Data.attachments') . $this->Announcement->id;
+            mkdir($folder);
+          }
+
+
           $this->Session->setFlash(__('Announcement created successfully!'));
           $this->redirect(array('action' => 'view', $this->Announcement->id));
         }else{

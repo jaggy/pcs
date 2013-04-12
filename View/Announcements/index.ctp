@@ -12,7 +12,7 @@
   <?php foreach($announcements as $announcement):  ?>
     <tr>
       <td><?php echo $announcement['Announcement']['id'] ?></td>
-      <td><?php echo $announcement['Announcement']['title'] ?></td>
+      <td><?php echo $this->Html->link($announcement['Announcement']['title'], array('action' => 'view', $announcement['Announcement']['id'])) ?></td>
       <td><?php echo date('F d, Y', strtotime($announcement['Announcement']['created'])) ?></td>
     </tr>
   <?php endforeach;  ?>

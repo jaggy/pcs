@@ -1,6 +1,6 @@
 <?php 
   echo $this->Form->create('User', array(
-    'inputDefaults' => array('div' => false),
+    'inputDefaults' => array('div' => false, 'class' => 'span12'),
     'type' => 'file'
   )); 
 ?>
