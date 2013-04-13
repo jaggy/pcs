@@ -1,6 +1,7 @@
 <?php echo $this->Html->script('discussions/view', array('inline' => false)); ?>
-<div class="discussion">
-  <h2><?php echo $discussion['Discussion']['title'] ?></h2>
+
+<div class="page-header">
+  <h1><?php echo $discussion['Discussion']['title'] ?></h1>
   <div class="details">
     Posted by: <?php echo $this->Html->link("{$discussion['User']['first_name']} {$discussion['User']['last_name']}", array(
       'controller' => 'users',
@@ -11,28 +12,27 @@
 
 </div>
 
-<div class="actions">
-  <?php echo $this->Html->link('Reply', array('controller' => 'discussions', 'action' => 'reply', $discussion['Discussion']['id'])) ?>
+<div class="actions" style="text-align: right; margin-bottom: 15px">
+  <?php echo $this->Html->link('Reply', array('controller' => 'discussions', 'action' => 'reply', $discussion['Discussion']['id']), array('class' => 'btn btn-primary')) ?>
 </div>
+
 <div class="posts">
 
   <?php foreach($posts as $post): ?>  
-    <div class="post">
-      <div class="user">
+    <div class="post well">
+      <div class="user box">
         <?php echo $this->Html->image("/profile/{$post['User']['image']}") ?>
+        <br>
         <strong><?php echo $this->Html->link("{$post['User']['first_name']} {$post['User']['last_name']}", array('controller' => 'users', 'action' => 'profile', $post['User']['username'] )) ?></strong>
-        <em>Member since: <?php echo date('F Y', strtotime($post['User']['created'])) ?></em>
       </div>
 
-      <?php echo $this->Editor->nl2p($post['Post']['content']) ?>
-      Posted on: <?php echo date('F d. Y', strtotime($post['Post']['created'])) ?>
-
-      <div class="actions">
-        <a href="#">Report Post</a>
-        <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
-      </div>
-
-      <div class="replies">
+      <div class="content box">
+        <?php echo $this->Editor->nl2p($post['Post']['content']) ?>
+        <small>Posted on: <?php echo date('F d. Y', strtotime($post['Post']['created'])) ?></small>
+        <div class="actions">
+          <a href="#" class="js-reply-toggle post-<?= $post['Post']['id']?>">Reply</a>
+        </div>
+        <div class="replies">
         <ul>
           <?php foreach($post['Reply'] as $reply): ?>
               <li> 
@@ -41,12 +41,16 @@
               </li>
           <?php endforeach; ?>
             <li class="reply-box-<?= $post['Post']['id']?> hidden">
-              <label for="Reply<?= $post['Post']['id']?>Content">Reply</label>
               <input type="text" class="js-reply-input-<?= $post['Post']['id']?> post-<?= $post['Post']['id']?>" name="data[Reply][<?= $post['Post']['id']?>][content]" id="Reply<?= $post['Post']['id']?>Content" />
               <button id="AjaxReply<?= $post['Post']['id']?>" class="js-reply-send post-<?= $post['Post']['id']?>">Reply</button>
             </li>
         </ul>
       </div>
+
+      </div>
+      
+
+      
     </div>
   <?php endforeach; ?>
 

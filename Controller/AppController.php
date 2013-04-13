@@ -56,6 +56,18 @@ class AppController extends Controller {
       $this->viewClass = 'Json';
     }
 
+    
+    $user_information = $this->Session->read('Auth.User');
+    if($user_information) $user_information['Committee'] = $this->joined_committee();
+    $this->set(compact('user_information'));
+  }
+
+  public function joined_committee(){
+    App::uses('CommitteeUser', 'Model');
+    $CommitteeUser = new CommitteeUser();
+    $CommitteeUser->Behaviors->attach('Containable');
+    $committee = $CommitteeUser->find('first', array('contain' => 'Committee', 'conditions' => array('user_id' => $this->Session->read('Auth.User.id'))));
+    if(isset($committee['Committee'])) return  $committee['Committee'];
   }
 
   /**

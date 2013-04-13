@@ -73,7 +73,8 @@ class CommitteeUser extends AppModel {
     ),
     'Committee' => array(
       'className' => 'Committee',
-      'foreignKey' => 'committee_id'
+      'foreignKey' => 'committee_id',
+      'counterCache' => true
     )
   ); 
 
