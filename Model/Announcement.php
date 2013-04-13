@@ -26,6 +26,14 @@ class Announcement extends AppModel {
     )
   );
 
+  public $hasMany = array(
+    'Attachment' => array(
+      'className' => 'Attachment',
+      'foreignKey' => 'announcement_id',
+      'dependent' => false
+    )
+  );
+
   public $belongsTo = array(
     'User' => array(
       'className' => 'User',
@@ -65,6 +73,32 @@ class Announcement extends AppModel {
   
     $this->saveImage();
     return true;
+  }
+
+  public function afterSave($created){
+    parent::afterSave($created);
+    $this->User->Behaviors->attach('Containable');
+  
+    App::uses('Notification', 'Model');
+    $Notification = new Notification();
+
+    $users = $this->User->find('all', array(
+      'fields' => array('id'),
+      'contain' => false
+    ));
+
+    foreach($users as $user){
+      $data[] = array(
+        'message' => 'New Annoncement "' . $this->data['Announcement']['title'] . '"',
+        'controller' => 'announcements',
+        'action' => 'view',
+        'parameter' => $this->data['Announcement']['id'],
+        'user_id' => $user['User']['id']
+      );
+    }
+
+    $Notification->saveAll($data);
+
   }
 
 }

@@ -1,5 +1,6 @@
 <?php echo $this->Form->create('Discussion', array('inputDefaults' => array(
-  'div' => false
+  'div' => false,
+  'class' => 'span12'
 ))) ?>
 
 <fieldset>
@@ -9,4 +10,4 @@
 
 </fieldset>
 
-<?php echo $this->Form->end(__('Create Discussion')); ?>
+<?php echo $this->Form->submit(__('Create Discussion'), array( 'div' => false, 'class' => 'btn btn-primary')); ?>

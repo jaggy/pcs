@@ -11,7 +11,8 @@ $('a[class^="js-decide-"]').on('click', function(evt){
     username: username
   };
 
-  var user_container = $(this).parent().parent();
+  var user_container = $(this).parent().parent().parent();
+  console.error(user_container);
   var committee_container = user_container.parent().parent();
 
   $.post('/committees/pending.json', data, function(data){

@@ -14,6 +14,11 @@ class Committee extends AppModel {
       'foreignKey' => 'committee_id',
       'dependent' => false
     ),
+    'Event' => array(
+      'className' => 'Event',
+      'foreignKey' => 'committee_id',
+      'dependent' => false
+    ),
   );
 
   public $belongsTo = array(

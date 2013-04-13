@@ -158,7 +158,33 @@ class User extends AppModel {
       'className' => 'Announcement',
       'foreignKey' => 'user_id',
       'dependent' => false
+    ),
+    'Event' => array(
+      'className' => 'Event',
+      'foreignKey' => 'user_id',
+      'dependent' => false
+    ),
+    'Rsvp' => array(
+      'className' => 'Rsvp',
+      'foreignKey' => 'user_id',
+      'dependent' => false
+    ),
+    'Attachment' => array(
+      'className' => 'Attachment',
+      'foreignKey' => 'user_id',
+      'dependent' => false
+    ),
+    'Sender' => array(
+      'className' => 'Message',
+      'foreignKey' => 'sender_id',
+      'dependent' => false
+    ),
+    'Recipient' => array(
+      'className' => 'Message',
+      'foreignKey' => 'recipient_id',
+      'dependent' => false
     )
+
   );
 
   public $hasOne = array(
