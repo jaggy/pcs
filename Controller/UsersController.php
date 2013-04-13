@@ -3,6 +3,15 @@
 App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 
+  public function ajax_list($keyword = ''){
+    $this->layout = 'ajax';
+    $users = $this->User->find('list', array(
+      'conditions' => array(
+        'username LIKE' => "{$keyword}%"
+      )
+    ));
+    $this->set('users', $users);
+  }
 
   /**
    * Update own settings and update the session as well
