@@ -31,7 +31,7 @@ class AnnouncementsController extends AppController{
       $submitted = $this->Announcement->Attachment->find('first', array(
         'conditions' => array(
           'announcement_id' => $this->Announcement->id,
-          'user_id' => $this->Session->read('Auth.User.id')
+          'Attachment.user_id' => $this->Session->read('Auth.User.id')
         )
       ));
 

@@ -21,11 +21,11 @@
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 				<ul class="nav">
-					<li class="active"><a href="/">Home</a></li>
-					<li><a href="/announcements">Announcements</a></li>
+					<li><a href="/">Home</a></li>
+					<!-- <li><a href="/announcements">Announcements</a></li> -->
 					<li><a href="/events">Events</a></li>
 					<?php  if(isset($user_information)):  ?>
-					<li><a href="/committee/<?php echo strtolower(str_replace(' ', '_', $user_information['Committee']['name'])) ?>"><?php echo $user_information['Committee']['name'] ?></a></li>
+					
 					<li class="dropdown">
 						<a href="#"  class="dropdown-toggle" data-toggle="dropdown"><?php echo "{$user_information['first_name']} {$user_information['last_name']}" ?> &#9660;</a>
 						<ul class="dropdown-menu">
@@ -33,6 +33,15 @@
 							<li class="divider"></li>
 							<li><?php echo $this->Html->link('Settings', array('controller' => 'users', 'action' => 'settings')) ?></li>
 							<li><?php echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout')) ?></li>
+						</ul>
+					</li>
+
+					<li><a href="/committee/<?php echo strtolower(str_replace(' ', '_', $user_information['Committee']['name'])) ?>"><?php echo $user_information['Committee']['name'] ?></a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications &#9660;</a>
+						<ul class="dropdown-menu js-notifications" style="width: 500px;">
+						
+							<li class="divider"></li>
 						</ul>
 					</li>
 					<?php endif; ?>
@@ -47,5 +56,21 @@
 </body>
 		<?php echo $this->Html->script('main'); ?>
 		<?php echo $this->fetch('script'); ?>
+		<script>
+			$(function(){
+				trace_notifications();
+				setInterval(trace_notifications, 2000);
+			});
+
+			function trace_notifications(){
+				$.ajax({
+					url: '/notifications/ajax_list',
+					type: 'GET',
+					success: function(data){
+						$('.js-notifications').empty().append(data);
+					}
+				});
+			}
+		</script>
 </html>
 

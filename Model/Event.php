@@ -35,4 +35,30 @@ class Event extends AppModel {
       )
     );
 
+    public function afterSave($created){
+      parent::afterSave($created);
+    
+      $this->User->Behaviors->attach('Containable');
+  
+      App::uses('Notification', 'Model');
+      $Notification = new Notification();
+
+      $users = $this->User->find('all', array(
+        'fields' => array('id'),
+        'contain' => false
+      ));
+
+      foreach($users as $user){
+        $data[] = array(
+          'message' => 'New Event "' . $this->data['Event']['name'] . '"',
+          'controller' => 'events',
+          'action' => 'view',
+          'parameter' => $this->data['Event']['id'],
+          'user_id' => $user['User']['id']
+        );
+      }
+
+      $Notification->saveAll($data);
+    }
+
 }

@@ -11,7 +11,10 @@ class EventsController extends AppController{
           'conditions' => array('user_id' => $this->Session->read('Auth.User.id')),
         )
       ),
-      'limit' => 10
+      'limit' => 10,
+      'order' => array(
+        'date' => 'DESC'
+      )
     );
 
     $events = $this->paginate();

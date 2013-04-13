@@ -1,4 +1,4 @@
-<div class="page=-header">
+<div class="page-header">
   <h1>Announcements</h1>
 </div>
 <?php echo $this->Html->link('Create', array('action' => 'add'), array('class' => 'btn btn-primary', 'style' => 'margin-bottom: 20px;' )) ?>

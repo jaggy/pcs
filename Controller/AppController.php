@@ -56,7 +56,7 @@ class AppController extends Controller {
       $this->viewClass = 'Json';
     }
 
-
+    
     $user_information = $this->Session->read('Auth.User');
     if($user_information) $user_information['Committee'] = $this->joined_committee();
     $this->set(compact('user_information'));
@@ -67,7 +67,7 @@ class AppController extends Controller {
     $CommitteeUser = new CommitteeUser();
     $CommitteeUser->Behaviors->attach('Containable');
     $committee = $CommitteeUser->find('first', array('contain' => 'Committee', 'conditions' => array('user_id' => $this->Session->read('Auth.User.id'))));
-    return $committee['Committee'];
+    if(isset($committee['Committee'])) return  $committee['Committee'];
   }
 
   /**
